@@ -11,6 +11,7 @@ import java.awt.*;
 
 public class Sun {
     private static final float SUN_DIM = 100.0f;
+    private static final float INITIAL_DEGREES = 30.0f;
     public static GameObject create(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions,
                                     float cycleLength){
         GameObject sun = new GameObject(Vector2.ZERO,
@@ -24,10 +25,22 @@ public class Sun {
         gameObjects.addGameObject(sun, layer);
         sun.setTag("sun");
 
-//        new Transition<Float>(sun, sun.renderer()::, sunLoc, sunLoc,
-//                Transition.LINEAR_INTERPOLATOR_FLOAT, cycleLength/2,
-//                Transition.TransitionType.TRANSITION_LOOP, null);
+        new Transition<Float>(sun,
+//                (angle) -> sun.setCenter(new Vector2((float)(windowDimensions.x()/2 + windowDimensions.x()*Math.cos(3*angle)),
+//                        (float)(windowDimensions.y()*1.15 - windowDimensions.y()*Math.sin(3*angle)))) ,
+                (angle) -> sun.setCenter(new Vector2((float)(windowDimensions.x()/2 + windowDimensions.x()/2*Math.sin(5*angle)),
+                        (float)(windowDimensions.y()*1.15 -windowDimensions.y()*1.15*Math.cos(5*angle)))),
+                INITIAL_DEGREES-1,
+                INITIAL_DEGREES,
+                Transition.LINEAR_INTERPOLATOR_FLOAT, cycleLength/2,
+                Transition.TransitionType.TRANSITION_LOOP, null);
 
         return sun;
+    }
+
+    private static Vector2 calcSunPosition(Vector2 windowDimensions, float angleInSky){
+        float x = (float)(windowDimensions.x()*Math.sin(angleInSky));
+        float y = (float)(windowDimensions.x()*Math.cos(angleInSky));
+        return new Vector2(x, y);
     }
 }

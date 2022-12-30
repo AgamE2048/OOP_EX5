@@ -38,10 +38,10 @@ public class Terrain {
     }
 
     public void createInRange(int minX, int maxX) {
-        Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
         for (int x = roundX(minX, '-'); x < roundX(maxX, '+'); x+=Block.SIZE) {
             // roundX((int)groundHeightAt(x), '+')
             for (int i = 0; i < (int)Math.floor(groundHeightAt(x)/Block.SIZE); i++) {
+                Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 double y_height =this.windowDimensions.y()- i* Block.SIZE;
                 System.out.println(y_height);
                 Vector2 vec = new Vector2(x, (float) (y_height));
@@ -65,4 +65,6 @@ public class Terrain {
         }
         return num;
     }
+
+
 }
