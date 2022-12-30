@@ -3,12 +3,16 @@ package pepse.world.daynight;
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.components.CoordinateSpace;
+import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 
 import java.awt.*;
+import java.util.function.Consumer;
 
 public class Night {
+    private static final Float MIDNIGHT_OPACITY = 0.7f;
+
     public static GameObject create(GameObjectCollection gameObjects, int nightLayer,
                                     Vector2 windowDimentions,
                                     float cycleLength){
@@ -18,6 +22,11 @@ public class Night {
         gameObjects.addGameObject(night, nightLayer);
         night.setTag("night");
 
+        new Transition<Float>(night, night.renderer()::setOpaqueness, 0f, MIDNIGHT_OPACITY,
+                Transition.CUBIC_INTERPOLATOR_FLOAT, cycleLength/2,
+                Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
+
         return night;
     }
+
 }

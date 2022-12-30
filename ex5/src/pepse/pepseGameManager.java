@@ -1,7 +1,9 @@
 package pepse;
 
 import danogl.GameManager;
+import danogl.GameObject;
 import danogl.collisions.Layer;
+import danogl.components.Transition;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
@@ -11,10 +13,12 @@ import pepse.world.Block;
 import pepse.world.Sky;
 import pepse.world.Terrain;
 import pepse.world.daynight.Night;
+import pepse.world.daynight.Sun;
 
 import java.time.temporal.TemporalAccessor;
 
 public class pepseGameManager extends GameManager {
+    private static final int CYCLE  = 30;
 
     public static void main(String[] args){
         new pepseGameManager().run();
@@ -29,10 +33,12 @@ public class pepseGameManager extends GameManager {
         Terrain t = new Terrain(gameObjects(), layerFactory.chooseLayer("terrain"),
                 windowController.getWindowDimensions()
                 ,0);
-        t.createInRange(0, 10);
+        t.createInRange(0, (int)windowController.getWindowDimensions().x());
         Night.create(gameObjects(), layerFactory.chooseLayer("night"),
-                windowController.getWindowDimensions(),
-                30);
+                windowController.getWindowDimensions(), CYCLE);
+
+        Sun.create(gameObjects(), layerFactory.chooseLayer("sun"),
+                windowController.getWindowDimensions(), CYCLE);
     }
 
 }

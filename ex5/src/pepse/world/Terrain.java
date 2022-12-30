@@ -22,7 +22,7 @@ public class Terrain {
     private GameObjectCollection gameObjects;
     private int groundLayer;
     private Vector2 windowDimensions;
-    private float groundHeightAtX0;
+    private float groundHeightAtX0 = 300;
 
 
     public Terrain(GameObjectCollection gameObjects, int groundLayer, Vector2 windowDimensions, int seed) {
@@ -40,13 +40,14 @@ public class Terrain {
     public void createInRange(int minX, int maxX) {
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
         for (int x = roundX(minX, '-'); x < roundX(maxX, '+'); x+=Block.SIZE) {
-            for (int i = 0; i < TERRAIN_DEPTH; i++) {
-                double y_height =
-                        this.windowDimensions.y() - (Math.floor(groundHeightAt(x) / Block.SIZE) + i)* Block.SIZE;
+            // roundX((int)groundHeightAt(x), '+')
+            for (int i = 0; i < (int)Math.floor(groundHeightAt(x)/Block.SIZE); i++) {
+                double y_height =this.windowDimensions.y()- i* Block.SIZE;
+                System.out.println(y_height);
                 Vector2 vec = new Vector2(x, (float) (y_height));
                 gameObjects.addGameObject(new Block(vec, r), Layer.STATIC_OBJECTS);
-
             }
+            System.out.println();
         }
 
         //TODO: finish...
