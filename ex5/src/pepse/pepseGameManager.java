@@ -6,7 +6,11 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import pepse.world.Block;
 import pepse.world.Sky;
+import pepse.world.Terrain;
+
+import java.time.temporal.TemporalAccessor;
 
 public class pepseGameManager extends GameManager {
 
@@ -14,11 +18,13 @@ public class pepseGameManager extends GameManager {
         new pepseGameManager().run();
     }
 
-    /*
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         Sky.create(gameObjects(), windowController.getWindowDimensions(), Layer.BACKGROUND);
+        Terrain t = new Terrain(gameObjects(), Layer.STATIC_OBJECTS, windowController.getWindowDimensions()
+                ,0);
+        t.createInRange(0, 10);
     }
-     */
+
 }

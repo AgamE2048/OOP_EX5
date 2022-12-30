@@ -12,5 +12,6 @@ public class Block extends GameObject {
         super(topLeftCorner, Vector2.ONES.mult(SIZE), renderable);
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
+        this.setTag("ground"); //TODO: check
     }
 }
