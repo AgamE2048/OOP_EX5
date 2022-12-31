@@ -33,7 +33,7 @@ public class Terrain {
     }
 
     public float groundHeightAt(float x) {
-        return (float)(250+25*Math.sin(30*x) + 25*Math.cos(20*x));
+        return (float)(250+25*Math.sin((int)(x/30)*25) + 25*Math.cos((int)(x/30)*45));
 //        return groundHeightAtX0;
         //TODO: change according to functionality.
     }
@@ -42,7 +42,7 @@ public class Terrain {
         for (int x = roundX(minX, '-'); x < roundX(maxX, '+'); x+=Block.SIZE) {
             for (int i = 0; i < (int)Math.floor(groundHeightAt(x)/Block.SIZE); i++) {
                 Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
-                double y_height =this.windowDimensions.y()- i* Block.SIZE;
+                double y_height = this.windowDimensions.y()- i* Block.SIZE;
                 Vector2 vec = new Vector2(x, (float) (y_height));
                 gameObjects.addGameObject(new Block(vec, r), this.groundLayer);
             }
@@ -52,6 +52,7 @@ public class Terrain {
     private int roundX(int x, char c) {
         int num = 0;
         if(c == ROUND_DOWN){
+            num = Block.SIZE*Block.SIZE;
             while(num > x)
                 num -= Block.SIZE;
         }

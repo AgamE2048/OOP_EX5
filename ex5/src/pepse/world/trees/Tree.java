@@ -14,7 +14,8 @@ import java.awt.*;
 import java.util.Random;
 
 public class Tree {
-    private static final Color BASE_TRUNK_COLOR = new Color(61, 27, 4);
+    private static final char ROUND_DOWN = '-';
+
     private final GameObjectCollection gameObjects;
     private final int layer;
     private final Vector2 windowDimensions;
@@ -28,18 +29,14 @@ public class Tree {
     }
 
     public void createInRange(int minX, int maxX) {
+        System.out.println("Window dimension in y " + windowDimensions.y());
         for (int x = minX + randX(60, 20); x < maxX; x += randX(60, 20)) {
-            Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
-            float height = randX(40, 60);
-            float width = randX(30, 20);
-            Vector2 dims = new Vector2(width, height);
-            Vector2 topLeftCorner = new Vector2((float) x, this.windowDimensions.y()-(height + ground.groundHeightAt((float)x)));
-            gameObjects.addGameObject(new GameObject(topLeftCorner, dims, r), layer);
-        }
+            }
     }
 
     private int randX(int strech, int bound) {
         Random rand = new Random();
         return (int) (rand.nextDouble() * strech + bound);
     }
+
 }
