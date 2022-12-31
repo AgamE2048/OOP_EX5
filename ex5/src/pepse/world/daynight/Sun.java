@@ -26,8 +26,6 @@ public class Sun {
         sun.setTag("sun");
 
         new Transition<Float>(sun,
-//                (angle) -> sun.setCenter(new Vector2((float)(windowDimensions.x()/2 + windowDimensions.x()*Math.cos(3*angle)),
-//                        (float)(windowDimensions.y()*1.15 - windowDimensions.y()*Math.sin(3*angle)))) ,
                 (angle) -> sun.setCenter(new Vector2((float)(windowDimensions.x()/2 + windowDimensions.x()/2*Math.sin(5*angle)),
                         (float)(windowDimensions.y()*1.3 -windowDimensions.y()*1.15*Math.cos(5*angle)))),
                 INITIAL_DEGREES, INITIAL_DEGREES+360.0F,
