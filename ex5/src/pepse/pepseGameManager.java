@@ -14,13 +14,15 @@ import pepse.world.Sky;
 import pepse.world.Terrain;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
+import pepse.world.daynight.SunHalo;
 
+import java.awt.*;
 import java.time.temporal.TemporalAccessor;
 
 public class pepseGameManager extends GameManager {
-    private static final int CYCLE  = 30;
+    private static final int CYCLE = 30;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         new pepseGameManager().run();
     }
 
@@ -32,13 +34,13 @@ public class pepseGameManager extends GameManager {
         Sky.create(gameObjects(), windowController.getWindowDimensions(), layerFactory.chooseLayer("sky"));
         Terrain t = new Terrain(gameObjects(), layerFactory.chooseLayer("terrain"),
                 windowController.getWindowDimensions()
-                ,0);
-        t.createInRange(0, (int)windowController.getWindowDimensions().x());
+                , 0);
+        t.createInRange(0, (int) windowController.getWindowDimensions().x());
         Night.create(gameObjects(), layerFactory.chooseLayer("night"),
                 windowController.getWindowDimensions(), CYCLE);
 
-        Sun.create(gameObjects(), layerFactory.chooseLayer("sun"),
+        GameObject sun = Sun.create(gameObjects(), layerFactory.chooseLayer("sun"),
                 windowController.getWindowDimensions(), CYCLE);
+        SunHalo.create(gameObjects(), layerFactory.chooseLayer("sunHalo"), sun, new Color(255, 255, 0, 20));
     }
-
 }

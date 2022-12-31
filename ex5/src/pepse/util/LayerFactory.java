@@ -7,20 +7,40 @@ public class LayerFactory {
     private static final String TERRAIN = "ground";
     private static final String NIGHT = "night";
     private static final String SUN = "sun";
+    private static final String SUN_HALO = "sunHalo";
+    private static final String TREE_TRUNKS = "treeTrunk";
+    private static final String LEAVES = "leaves";
+    private static final String OBJECTS = "gameObjects";
+    private static final String UI = "UI";
 
     public int chooseLayer(String obj){
         switch(obj){
             case SKY:
                 return Layer.BACKGROUND;
 
+            case SUN:
+                return Layer.BACKGROUND + 1;
+
+            case SUN_HALO:
+                return Layer.BACKGROUND + 2;
+
             case TERRAIN:
                 return Layer.STATIC_OBJECTS;
+
+            case TREE_TRUNKS:
+                return Layer.STATIC_OBJECTS + 10;
+
+            case LEAVES:
+                return Layer.STATIC_OBJECTS + 20;
+
+            case OBJECTS:
+                return Layer.STATIC_OBJECTS + 40;
 
             case NIGHT:
                 return Layer.FOREGROUND;
 
-            case SUN:
-                return Layer.BACKGROUND + 1;
+            case UI:
+                return Layer.UI;
         }
 
         return 0;

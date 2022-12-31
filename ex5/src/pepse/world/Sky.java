@@ -13,12 +13,12 @@ public class Sky {
     private static final Color BASIC_SKY_COLOR = Color.decode("#80C6E5");
 
     public static GameObject create(GameObjectCollection gameObjects, Vector2 windowDimentions,
-                                    int skyLayer){
+                                    int layer){
         GameObject sky = new GameObject(Vector2.ZERO, windowDimentions,
                 new RectangleRenderable(BASIC_SKY_COLOR));
 
         sky.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
-        gameObjects.addGameObject(sky, skyLayer);
+        gameObjects.addGameObject(sky, layer);
         sky.setTag("sky");
 
         return sky;
