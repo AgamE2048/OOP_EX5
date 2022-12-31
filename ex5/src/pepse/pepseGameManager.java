@@ -41,6 +41,6 @@ public class pepseGameManager extends GameManager {
 
         GameObject sun = Sun.create(gameObjects(), layerFactory.chooseLayer("sun"),
                 windowController.getWindowDimensions(), CYCLE);
-        SunHalo.create(gameObjects(), layerFactory.chooseLayer("sunHalo"), sun, new Color(255, 255, 0, 20));
+        SunHalo.create(gameObjects(), layerFactory.chooseLayer("sunHalo"), sun, new Color(255, 255, 0, 60));
     }
 }

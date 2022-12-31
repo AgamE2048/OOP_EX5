@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class Sun {
     private static final float SUN_DIM = 100.0f;
-    private static final float INITIAL_DEGREES = 30.0f;
+    private static final float INITIAL_DEGREES = 5.0f;
     public static GameObject create(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions,
                                     float cycleLength){
         GameObject sun = new GameObject(Vector2.ZERO,
@@ -29,10 +29,9 @@ public class Sun {
 //                (angle) -> sun.setCenter(new Vector2((float)(windowDimensions.x()/2 + windowDimensions.x()*Math.cos(3*angle)),
 //                        (float)(windowDimensions.y()*1.15 - windowDimensions.y()*Math.sin(3*angle)))) ,
                 (angle) -> sun.setCenter(new Vector2((float)(windowDimensions.x()/2 + windowDimensions.x()/2*Math.sin(5*angle)),
-                        (float)(windowDimensions.y()*1.15 -windowDimensions.y()*1.15*Math.cos(5*angle)))),
-                INITIAL_DEGREES-1,
-                INITIAL_DEGREES,
-                Transition.LINEAR_INTERPOLATOR_FLOAT, cycleLength/2,
+                        (float)(windowDimensions.y()*1.3 -windowDimensions.y()*1.15*Math.cos(5*angle)))),
+                INITIAL_DEGREES, INITIAL_DEGREES+360.0F,
+                Transition.LINEAR_INTERPOLATOR_FLOAT, (int)Math.pow(cycleLength, 2.65),
                 Transition.TransitionType.TRANSITION_LOOP, null);
 
         return sun;

@@ -33,24 +33,20 @@ public class Terrain {
     }
 
     public float groundHeightAt(float x) {
-        return groundHeightAtX0;
+        return (float)(250+25*Math.sin(30*x) + 25*Math.cos(20*x));
+//        return groundHeightAtX0;
         //TODO: change according to functionality.
     }
 
     public void createInRange(int minX, int maxX) {
         for (int x = roundX(minX, '-'); x < roundX(maxX, '+'); x+=Block.SIZE) {
-            // roundX((int)groundHeightAt(x), '+')
             for (int i = 0; i < (int)Math.floor(groundHeightAt(x)/Block.SIZE); i++) {
                 Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 double y_height =this.windowDimensions.y()- i* Block.SIZE;
-                System.out.println(y_height);
                 Vector2 vec = new Vector2(x, (float) (y_height));
-                gameObjects.addGameObject(new Block(vec, r), Layer.STATIC_OBJECTS);
+                gameObjects.addGameObject(new Block(vec, r), this.groundLayer);
             }
-            System.out.println();
         }
-
-        //TODO: finish...
     }
 
     private int roundX(int x, char c) {

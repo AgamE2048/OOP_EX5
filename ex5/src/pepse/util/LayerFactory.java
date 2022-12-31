@@ -42,7 +42,6 @@ public class LayerFactory {
             case UI:
                 return Layer.UI;
         }
-
         return 0;
     }
 }
