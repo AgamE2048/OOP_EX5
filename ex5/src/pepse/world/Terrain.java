@@ -16,9 +16,7 @@ import java.awt.*;
  */
 public class Terrain {
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
-    private static final int TERRAIN_DEPTH = 20;
     private static final char ROUND_DOWN = '-';
-    private static final char ROUND_UO = '+';
     private GameObjectCollection gameObjects;
     private int groundLayer;
     private Vector2 windowDimensions;
@@ -50,9 +48,8 @@ public class Terrain {
     }
 
     private int roundX(int x, char c) {
-        int num = 0;
+        int num = Block.SIZE*x;
         if(c == ROUND_DOWN){
-            num = Block.SIZE*Block.SIZE;
             while(num > x)
                 num -= Block.SIZE;
         }
@@ -62,6 +59,4 @@ public class Terrain {
         }
         return num;
     }
-
-
 }
