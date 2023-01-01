@@ -48,13 +48,17 @@ public class Terrain {
     }
 
     private int roundX(int x, char c) {
-        int num = Block.SIZE*x;
+        int num = 0;
         if(c == ROUND_DOWN){
+            while(num < x)
+                num += Block.SIZE;
             while(num > x)
                 num -= Block.SIZE;
         }
         else{
-            while (num < x)
+            while(num > x)
+                num -= Block.SIZE;
+            while(num < x)
                 num += Block.SIZE;
         }
         return num;

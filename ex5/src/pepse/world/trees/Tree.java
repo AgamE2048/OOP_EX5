@@ -30,7 +30,7 @@ public class Tree {
 
     public void createInRange(int minX, int maxX) {
         System.out.println("Window dimension in y " + windowDimensions.y());
-        for (int x = minX + randX(150, 50); x < maxX; x += randX(150, 50)) {
+        for (int x = minX - 100 + randX(250, 150); x < maxX; x += randX(250, 150)) {
             Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x),x,
                     this.layer);
             trunk.create();

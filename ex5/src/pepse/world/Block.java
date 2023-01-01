@@ -14,4 +14,13 @@ public class Block extends GameObject {
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
         this.setTag("ground"); //TODO: check
     }
+
+    public Block(Vector2 topLeftCorner, Renderable renderable, int height){
+        super(topLeftCorner, new Vector2(SIZE, height), renderable);
+        physics().preventIntersectionsFromDirection(Vector2.ZERO);
+        physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
+        this.setTag("tree");
+
+    }
+
 }

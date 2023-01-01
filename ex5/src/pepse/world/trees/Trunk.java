@@ -29,16 +29,21 @@ public class Trunk {
     }
 
     public GameObject create(){
-        float height = randX(150, 100);
+        float height = randX(150, 300);
         float x = (float) roundX(this.locOfX, '-');
         float y = windowDimensions.y() - (roundX((int) this.groundHeight,'-'));
+        System.out.println( this.groundHeight);
+        System.out.println(roundX((int) this.groundHeight,'+'));
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
-        for (int i = 0; i < (int)Math.ceil(height/Block.SIZE); i++) {
-            double y_height = y - i* Block.SIZE;
-            Vector2 vec = new Vector2(x, (float) (y_height));
-            gameObjects.addGameObject(new Block(vec, r), this.layer);
-        }
-        return null;
+//        for (int i = 0; i < (int)Math.ceil(height/Block.SIZE); i++) {
+//            double y_height = y - i* Block.SIZE;
+//            Vector2 vec = new Vector2(x, (float) (y_height));
+//            gameObjects.addGameObject(new Block(vec, r), this.layer);
+//        }
+        Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, (int)Math.ceil(height));
+        gameObjects.addGameObject(trunk, this.layer);
+        trunk.setTag("tree_trunk");
+        return trunk;
     }
 
     private int randX(int strech, int bound) {
@@ -47,13 +52,17 @@ public class Trunk {
     }
 
     private int roundX(int x, char c) {
-        int num = Block.SIZE*x;
+        int num = 0;
         if(c == ROUND_DOWN){
+            while(num < x)
+                num += Block.SIZE;
             while(num > x)
                 num -= Block.SIZE;
         }
         else{
-            while (num < x)
+            while(num > x)
+                num -= Block.SIZE;
+            while(num < x)
                 num += Block.SIZE;
         }
         return num;
