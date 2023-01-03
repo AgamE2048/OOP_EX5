@@ -7,6 +7,7 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
+import pepse.util.GroundHeight;
 import pepse.world.Block;
 import pepse.world.Terrain;
 
@@ -19,9 +20,9 @@ public class Tree {
     private final GameObjectCollection gameObjects;
     private final int layer;
     private final Vector2 windowDimensions;
-    private final Terrain ground;
+    private final GroundHeight ground;
 
-    public Tree(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, Terrain ground) {
+    public Tree(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, GroundHeight ground) {
         this.gameObjects = gameObjects;
         this.layer = layer;
         this.windowDimensions = windowDimensions;
@@ -34,6 +35,9 @@ public class Tree {
             Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x),x,
                     this.layer);
             trunk.create();
+            TreeTop top = new TreeTop(gameObjects, new Vector2(x,
+                    (float)(this.windowDimensions.y()- (trunk.getHeight()+ ground.groundHeightAt(x)))));
+            top.create();
             }
     }
 

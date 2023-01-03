@@ -2,6 +2,7 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
+import danogl.collisions.GameObjectCollection;
 import danogl.collisions.Layer;
 import danogl.components.Transition;
 import danogl.gui.ImageReader;
@@ -17,6 +18,7 @@ import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Tree;
+import pepse.world.trees.leaves.Leaf;
 
 import java.awt.*;
 import java.time.temporal.TemporalAccessor;
@@ -48,5 +50,6 @@ public class pepseGameManager extends GameManager {
 
         Tree tree = new Tree(gameObjects(), layerFactory.chooseLayer("tree"), windowDims, t );
         tree.createInRange(0, (int) windowDims.x());
+
     }
 }

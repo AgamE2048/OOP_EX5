@@ -6,6 +6,7 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
+import pepse.util.GroundHeight;
 
 import java.awt.*;
 
@@ -14,7 +15,7 @@ import java.awt.*;
  * 1. Create the ground blocks
  * 2. Enables different objects to know what is the height of the ground at given X coordinate.
  */
-public class Terrain {
+public class Terrain implements GroundHeight {
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final char ROUND_DOWN = '-';
     private GameObjectCollection gameObjects;
@@ -30,6 +31,7 @@ public class Terrain {
         //TODO: finish...
     }
 
+    @Override
     public float groundHeightAt(float x) {
         return (float)(250+25*Math.sin((int)(x/30)*25) + 25*Math.cos((int)(x/30)*45));
 //        return groundHeightAtX0;

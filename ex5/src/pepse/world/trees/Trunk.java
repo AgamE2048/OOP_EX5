@@ -13,12 +13,13 @@ import java.util.Random;
 
 public class Trunk {
     private static final char ROUND_DOWN = '-';
-    private static final Color BASE_TRUNK_COLOR = new Color(61, 27, 4);
+    private static final Color BASE_TRUNK_COLOR = new Color(100, 50, 20);
     private final float groundHeight;
     private final GameObjectCollection gameObjects;
     private final Vector2 windowDimensions;
     private int locOfX;
     private int layer;
+    private int height;
     public Trunk(GameObjectCollection gameObjects, Vector2 windowDimensions ,float groundHeight, int locOfX
             , int layer) {
         this.groundHeight = groundHeight;
@@ -29,7 +30,7 @@ public class Trunk {
     }
 
     public GameObject create(){
-        float height = randX(150, 300);
+        this.height = randX(150, 300);
         float x = (float) roundX(this.locOfX, '-');
         float y = windowDimensions.y() - (roundX((int) this.groundHeight,'-'));
         System.out.println( this.groundHeight);
@@ -40,10 +41,14 @@ public class Trunk {
 //            Vector2 vec = new Vector2(x, (float) (y_height));
 //            gameObjects.addGameObject(new Block(vec, r), this.layer);
 //        }
-        Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, (int)Math.ceil(height));
+        Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, height);
         gameObjects.addGameObject(trunk, this.layer);
         trunk.setTag("tree_trunk");
         return trunk;
+    }
+
+    public int getHeight() {
+        return this.height;
     }
 
     private int randX(int strech, int bound) {
