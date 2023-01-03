@@ -9,7 +9,7 @@ public class LayerFactory {
     private static final String SUN = "sun";
     private static final String SUN_HALO = "sunHalo";
     private static final String TREE_TRUNKS = "treeTrunk";
-    private static final String LEAVES = "leaves";
+    private static final String LEAVES = "leaf";
     private static final String OBJECTS = "gameObjects";
     private static final String UI = "UI";
 
