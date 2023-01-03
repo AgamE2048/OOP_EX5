@@ -41,7 +41,7 @@ public class Trunk {
 //            Vector2 vec = new Vector2(x, (float) (y_height));
 //            gameObjects.addGameObject(new Block(vec, r), this.layer);
 //        }
-        Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, height);
+        Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, roundX(height,'+'));
         gameObjects.addGameObject(trunk, this.layer);
         trunk.setTag("tree_trunk");
         return trunk;
