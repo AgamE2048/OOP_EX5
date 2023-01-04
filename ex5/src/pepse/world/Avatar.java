@@ -48,7 +48,7 @@ public class Avatar extends GameObject{
 
         avatar.physics().preventIntersectionsFromDirection(Vector2.ZERO);
 
-        return null;
+        return avatar;
     }
 
 
