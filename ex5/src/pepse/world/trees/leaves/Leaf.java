@@ -14,18 +14,23 @@ import java.util.Random;
 
 public class Leaf {
     private static final Color BASE_COLOR_LEAVES = new Color(50, 200, 30);
+    private static final int FADE_TIME = 5;
     private GameObject leaf;
     private int lifeTime;
     private int clearTime;
 
     private GameObjectCollection gameObjects;
     private Vector2 topLeftCorner;
+    private int layer;
+    private int groundLayer;
 
-    public Leaf(GameObjectCollection gameObjects){
+    public Leaf(GameObjectCollection gameObjects, int layer, int groundLayer){
         this.gameObjects = gameObjects;
         Random rand = new Random();
         this.lifeTime = rand.nextInt(30) + 5;
         this.clearTime = rand.nextInt(5) + 5;
+        this.layer = layer;
+        this.groundLayer = groundLayer;
     }
 
     public GameObject create(Vector2 topLeftCorner){
@@ -65,8 +70,14 @@ public class Leaf {
     }
 
     private void falling(){
+        //this.gameObjects.layers().shouldLayersCollide(layer, groundLayer, true);
         leaf.transform().setVelocityY(70);
-        leaf.renderer().fadeOut(this.clearTime, () -> new ScheduledTask(leaf, this.clearTime,
+        new Transition<Float>(leaf,
+                v -> leaf.transform().setVelocityX(v),
+                -30.0f, 30.0f,
+                Transition.CUBIC_INTERPOLATOR_FLOAT, 5,
+                Transition.TransitionType.TRANSITION_LOOP, null);
+        leaf.renderer().fadeOut(FADE_TIME, () -> new ScheduledTask(leaf, this.clearTime,
                 true, this::releaf));
     }
 

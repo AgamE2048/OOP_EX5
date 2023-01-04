@@ -2,6 +2,7 @@ package pepse.world.trees;
 
 import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
+import danogl.collisions.Layer;
 import danogl.util.Vector2;
 import pepse.world.Block;
 import pepse.world.trees.leaves.Leaf;
@@ -26,7 +27,9 @@ public class TreeTop {
                 float num = rand.nextFloat() *(radius - Math.abs(r)) * (radius - Math.abs(c))
                         /(radius);
                 if(num > 0.3){
-                    Leaf leaf = new Leaf(gameObjects);
+                    Leaf leaf = new Leaf(gameObjects, Layer.STATIC_OBJECTS+20, Layer.STATIC_OBJECTS);// TODO decide how
+                    // to get
+                    // layers
                     Vector2 location = new Vector2(this.center.x() + r* Block.SIZE, this.center.y() + c * Block.SIZE);
                     leaf.create(location);
                 }
