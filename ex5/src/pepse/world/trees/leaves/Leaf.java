@@ -16,7 +16,7 @@ public class Leaf {
     private static final Color BASE_COLOR_LEAVES = new Color(50, 200, 30);
     private GameObject leaf;
     private int lifeTime;
-    private int fadeTime;
+    private int clearTime;
 
     private GameObjectCollection gameObjects;
     private Vector2 topLeftCorner;
@@ -25,7 +25,7 @@ public class Leaf {
         this.gameObjects = gameObjects;
         Random rand = new Random();
         this.lifeTime = rand.nextInt(30) + 5;
-        this.fadeTime = rand.nextInt(5) + 5;
+        this.clearTime = rand.nextInt(5) + 5;
     }
 
     public GameObject create(Vector2 topLeftCorner){
@@ -38,7 +38,6 @@ public class Leaf {
 
         new ScheduledTask(leaf, (float)randX(10, 1), true, this::run);
         new ScheduledTask(leaf, this.lifeTime, true, this::falling);
-//        new ScheduledTask(leaf, this.lifeTime + this.fadeTime, true, this::releaf);
 
         return leaf;
     }
@@ -67,11 +66,12 @@ public class Leaf {
 
     private void falling(){
         leaf.transform().setVelocityY(70);
-        leaf.renderer().fadeOut(this.fadeTime, () -> releaf());
-        this.gameObjects.removeGameObject(leaf);
+        leaf.renderer().fadeOut(this.clearTime, () -> new ScheduledTask(leaf, this.clearTime,
+                true, this::releaf));
     }
 
     private void releaf(){
+        this.gameObjects.removeGameObject(leaf);
         create(topLeftCorner);
     }
 }
