@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Trunk {
+    // Class variables
     private static final char ROUND_DOWN = '-';
     private static final Color BASE_TRUNK_COLOR = new Color(100, 50, 20);
     private final float groundHeight;
@@ -20,6 +21,15 @@ public class Trunk {
     private int locOfX;
     private int layer;
     private int height;
+
+    /**
+     * Creates a GameObject of type Trunk
+     * @param gameObjects the gameObjects in the game
+     * @param windowDimensions the vector with the dimensions of the screen
+     * @param groundHeight the GroundHeight that calculates the height of the ground at certain x
+     * @param locOfX the location of where we want to place the trunk
+     * @param layer the layer we want to place the GameObject at
+     */
     public Trunk(GameObjectCollection gameObjects, Vector2 windowDimensions ,float groundHeight, int locOfX
             , int layer) {
         this.groundHeight = groundHeight;
@@ -29,6 +39,10 @@ public class Trunk {
         this.layer = layer;
     }
 
+    /**
+     *
+     * @return a GameObject of type Trunk
+     */
     public GameObject create(){
         this.height = randX(150, 300);
         float x = (float) roundX(this.locOfX, '-');
@@ -36,21 +50,26 @@ public class Trunk {
         System.out.println( this.groundHeight);
         System.out.println(roundX((int) this.groundHeight,'+'));
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
-//        for (int i = 0; i < (int)Math.ceil(height/Block.SIZE); i++) {
-//            double y_height = y - i* Block.SIZE;
-//            Vector2 vec = new Vector2(x, (float) (y_height));
-//            gameObjects.addGameObject(new Block(vec, r), this.layer);
-//        }
         Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, height); //Rollback
         gameObjects.addGameObject(trunk, this.layer);
         trunk.setTag("tree_trunk");
         return trunk;
     }
 
+    /**
+     *
+     * @return the height of the trunk
+     */
     public float getHeight() {
         return this.height;
     }
 
+    /**
+     *
+     * @param strech how much of a range we want
+     * @param bound lower bound of the random number
+     * @return a random number with the right constraints
+     */
     private int randX(int strech, int bound) {
         Random rand = new Random();
         return rand.nextInt(strech) + bound;
