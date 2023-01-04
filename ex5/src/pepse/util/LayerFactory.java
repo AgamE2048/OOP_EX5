@@ -3,6 +3,7 @@ package pepse.util;
 import danogl.collisions.Layer;
 
 public class LayerFactory {
+    // Class Constants
     private static final String SKY = "sky";
     private static final String TERRAIN = "ground";
     private static final String NIGHT = "night";
@@ -13,6 +14,11 @@ public class LayerFactory {
     private static final String OBJECTS = "gameObjects";
     private static final String UI = "UI";
 
+    /**
+     *
+     * @param obj a String whose layer we want
+     * @returnthe layer we want to place obj at
+     */
     public int chooseLayer(String obj){
         switch(obj){
             case SKY:
@@ -41,7 +47,9 @@ public class LayerFactory {
 
             case UI:
                 return Layer.UI;
+
+            default:
+                return 0;
         }
-        return 0;
     }
 }

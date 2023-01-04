@@ -24,30 +24,46 @@ import java.awt.*;
 import java.time.temporal.TemporalAccessor;
 
 public class pepseGameManager extends GameManager {
+    // Class variables
     private static final int CYCLE = 30;
 
     public static void main(String[] args) {
         new pepseGameManager().run();
     }
 
+    /**
+     *
+     * @param imageReader Contains a single method: readImage, which reads an image from disk.
+     *                 See its documentation for help.
+     * @param soundReader Contains a single method: readSound, which reads a wav file from
+     *                    disk. See its documentation for help.
+     * @param inputListener Contains a single method: isKeyPressed, which returns whether
+     *                      a given key is currently pressed by the user or not. See its
+     *                      documentation.
+     * @param windowController Contains an array of helpful, self explanatory methods
+     *                         concerning the window.
+     */
     @Override
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         LayerFactory layerFactory = new LayerFactory();
         Vector2 windowDims = windowController.getWindowDimensions();
-
+        // Creates the sky
         Sky.create(gameObjects(), windowDims, layerFactory.chooseLayer("sky"));
+        // Creates the ground
         Terrain t = new Terrain(gameObjects(), layerFactory.chooseLayer("terrain"),
                 windowDims
                 , 0);
         t.createInRange(0, (int) windowDims.x());
+        // Creates the night
         Night.create(gameObjects(), layerFactory.chooseLayer("night"),
                 windowDims, CYCLE);
-
+        // Creates the sun
         GameObject sun = Sun.create(gameObjects(), layerFactory.chooseLayer("sun"),
                 windowDims, CYCLE);
+        // Creates the sun-halo
         SunHalo.create(gameObjects(), layerFactory.chooseLayer("sunHalo"), sun, new Color(255, 255, 0, 60));
-
+        // Creates the trees
         Tree tree = new Tree(gameObjects(), layerFactory.chooseLayer("tree"), windowDims, t );
         tree.createInRange(0, (int) windowDims.x());
 
