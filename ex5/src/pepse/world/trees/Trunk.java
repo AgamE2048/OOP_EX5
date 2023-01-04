@@ -32,7 +32,7 @@ public class Trunk {
     public GameObject create(){
         this.height = randX(150, 300);
         float x = (float) roundX(this.locOfX, '-');
-        float y = windowDimensions.y() - (roundX((int) this.groundHeight,'-'));
+        float y = windowDimensions.y() - (roundX((int) this.groundHeight,'-') - 2);
         System.out.println( this.groundHeight);
         System.out.println(roundX((int) this.groundHeight,'+'));
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
@@ -47,13 +47,14 @@ public class Trunk {
         return trunk;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return this.height;
     }
 
     private int randX(int strech, int bound) {
         Random rand = new Random();
-        return (int) (rand.nextDouble() * strech + bound);
+        return rand.nextInt(strech) + bound;
+        //return (int) (rand.nextDouble() * strech + bound);
     }
 
     private int roundX(int x, char c) {
