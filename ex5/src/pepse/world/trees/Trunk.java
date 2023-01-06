@@ -47,8 +47,6 @@ public class Trunk {
         this.height = randX(150, 300);
         float x = (float) roundX(this.locOfX, '-');
         float y = windowDimensions.y() - (roundX((int) this.groundHeight,'-') - 2);
-        System.out.println( this.groundHeight);
-        System.out.println(roundX((int) this.groundHeight,'+'));
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
         Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, height); //Rollback
         gameObjects.addGameObject(trunk, this.layer);

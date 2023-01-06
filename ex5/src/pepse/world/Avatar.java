@@ -1,7 +1,9 @@
 package pepse.world;
 
 import danogl.GameObject;
+import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
+import danogl.components.ScheduledTask;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.RectangleRenderable;
@@ -13,12 +15,19 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Avatar extends GameObject{
+
+    private static final float VELOCITY_X = 300;
+    private static final float VELOCITY_Y = -300;
+    private static final float GRAVITY = 500;
+
+
     private static final int MOVE_SPEED = 300;
-    private static final int JUMP_VELOCITY = -300;
-    private static final int ACCELERATION_FROM_SKY  = 500;
+    private static final int JUMP_VELOCITY = -1;
+    private static final int ACCELERATION_FROM_SKY = 500;
     public static final int INITIAL_ENERGY = 100;
 
     private static float energy;
+    private final ImageReader imageReader;
     private UserInputListener inputListener;
 
     /**
@@ -30,8 +39,11 @@ public class Avatar extends GameObject{
      * @param renderable    The renderable representing the object. Can be null, in which case
      *                      the GameObject will not be rendered.
      */
-    public Avatar(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable) {
+    public Avatar(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
+                  UserInputListener inputListener, ImageReader imageReader) {
         super(topLeftCorner, dimensions, renderable);
+        this.inputListener = inputListener;
+        this.imageReader = imageReader;
     }
 
     public static Avatar create(GameObjectCollection gameObjects,
@@ -41,14 +53,27 @@ public class Avatar extends GameObject{
 
         Renderable avatarRenderable = new RectangleRenderable(Color.black);
         Avatar avatar = new Avatar(topLeftCorner, new Vector2(100, 100),
-                avatarRenderable);
+                avatarRenderable, inputListener, imageReader);
         avatar.renderer().setIsFlippedHorizontally(true);
 
         energy = INITIAL_ENERGY;
 
         avatar.physics().preventIntersectionsFromDirection(Vector2.ZERO);
 
+        avatar.transform().setAccelerationY(GRAVITY);
+
+        gameObjects.addGameObject(avatar, layer);
+
         return avatar;
+    }
+
+    @Override
+    public void onCollisionEnter(GameObject other, Collision collision) {
+        if(other.getTag().equals("ground")){
+            super.onCollisionEnter(other, collision);
+            this.transform().setVelocityX(0);
+            this.transform().setVelocityY(0);
+        }
     }
 
 
@@ -65,34 +90,33 @@ public class Avatar extends GameObject{
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        Vector2 movementDir = Vector2.ZERO;
-        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)){
-            movementDir = movementDir.add(Vector2.LEFT);
-        }
-
-        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT)){
-            movementDir = movementDir.add(Vector2.RIGHT);
-        }
-
+        float xVel = 0;
+        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT))
+            xVel -= VELOCITY_X;
+        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT))
+            xVel += VELOCITY_X;
+        transform().setVelocityX(xVel);
+//        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) && getVelocity().y() == 0)
+//            transform().setVelocityY(VELOCITY_Y);
         if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) && inputListener.isKeyPressed(KeyEvent.VK_SHIFT)){
             if(energy > 0){
                 energy -= 0.5;
-                movementDir = new Vector2(movementDir.x(), JUMP_VELOCITY);
-            }
-            else{
-                this.transform().setAccelerationY(ACCELERATION_FROM_SKY);
+                transform().setVelocityY(VELOCITY_Y);
             }
         }
-
-        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)){
-            if(movementDir.y() == 0){
-                movementDir = new Vector2(0, JUMP_VELOCITY);
+        else if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)){
+            if(getVelocity().y() == 0){
+                transform().setVelocityY(VELOCITY_Y);
+                transform().setVelocityX(0);
             }
         }
-
-        //TODO: add option to stay in place
-
-        this.setVelocity(movementDir.mult(MOVE_SPEED));
+//        else{
+//            this.transform().setAccelerationY(ACCELERATION_FROM_SKY);
+//        }
+//
+        if(getVelocity().y() == 0){
+            energy += 0.5;
+        }
     }
 }
 
