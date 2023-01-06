@@ -49,7 +49,7 @@ public class Tree {
                     this.layer);
             trunk.create();
             TreeTop top = new TreeTop(gameObjects, new Vector2(x,
-                    (this.windowDimensions.y() - (trunk.getHeight()+ ground.groundHeightAt(x)))));
+                    (this.windowDimensions.y() - (trunk.getHeight()+ ground.groundHeightAt(x)))), this.layer);
             top.create();
             }
     }

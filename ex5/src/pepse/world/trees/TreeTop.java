@@ -11,12 +11,15 @@ import java.util.Random;
 
 public class TreeTop {
 
+    private static final int LEAVES_LAYET_ADDITION = 20;
+    private final int layer;
     private GameObjectCollection gameObjects;
     private final Vector2 center;
 
-    public TreeTop(GameObjectCollection gameObjects, Vector2 center){
+    public TreeTop(GameObjectCollection gameObjects, Vector2 center, int layer){
         this.gameObjects = gameObjects;
         this.center = center;
+        this.layer = layer;
     }
 
     public void create(){
@@ -27,9 +30,7 @@ public class TreeTop {
                 float num = rand.nextFloat() *(radius - Math.abs(r)) * (radius - Math.abs(c))
                         /(radius);
                 if(num > 0.3){
-                    Leaf leaf = new Leaf(gameObjects, Layer.STATIC_OBJECTS+20, Layer.STATIC_OBJECTS);// TODO decide how
-                    // to get
-                    // layers
+                    Leaf leaf = new Leaf(gameObjects, this.layer+LEAVES_LAYET_ADDITION, this.layer);
                     Vector2 location = new Vector2(this.center.x() + r* Block.SIZE, this.center.y() + c * Block.SIZE);
                     leaf.create(location);
                 }
