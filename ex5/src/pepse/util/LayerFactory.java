@@ -54,6 +54,7 @@ public class LayerFactory {
 
             default:
                 return 0;
+
         }
     }
 }

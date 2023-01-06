@@ -43,8 +43,8 @@ public class Leaf extends GameObject{
 //        this.gameObjects.addGameObject(this);
 //        this.setTag("leaf"); //TODO: add proper layer
 
-        new ScheduledTask(this, (float)randX(10, 1), true, this::run);
-        new ScheduledTask(this, this.lifeTime, true, this::falling);
+        new ScheduledTask(this, (float)randX(10, 1), false, this::run);
+        new ScheduledTask(this, this.lifeTime, false, this::falling);
 
         return this;
     }
@@ -78,7 +78,7 @@ public class Leaf extends GameObject{
                 Transition.CUBIC_INTERPOLATOR_FLOAT, 5,
                 Transition.TransitionType.TRANSITION_LOOP, null);
         this.renderer().fadeOut(FADE_TIME, () -> new ScheduledTask(this, this.clearTime,
-                true, this::releaf));
+                false, this::releaf));
         addComponent(horizrontalTransition);
 
 

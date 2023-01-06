@@ -20,7 +20,7 @@ public class Avatar extends GameObject{
 
     private static final float VELOCITY_X = 300;
     private static final float VELOCITY_Y = -300;
-    private static final float GRAVITY = 500;
+    private static final float GRAVITY = 400;
     public static final int INITIAL_ENERGY = 100;
     private static final double TIME_BETWEEN_FRAMES = 4;
     private static final int STANDING_PIG = 0;
