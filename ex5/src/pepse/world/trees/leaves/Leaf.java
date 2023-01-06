@@ -12,7 +12,6 @@ import pepse.util.ColorSupplier;
 import pepse.world.Block;
 
 import java.awt.*;
-import java.util.Random;
 
 import static pepse.world.Terrain.rand;
 
@@ -25,8 +24,6 @@ public class Leaf extends GameObject{
 
     private GameObjectCollection gameObjects;
     private Vector2 topLeftCorner;
-    private int layer;
-    private int groundLayer;
     private Transition<Float> horizrontalTransition;
 
     public Leaf(GameObjectCollection gameObjects, int layer, int groundLayer, Vector2 topLeftCorner){
@@ -36,8 +33,8 @@ public class Leaf extends GameObject{
         this.gameObjects = gameObjects;
         this.lifeTime =  rand.nextInt(30) + 5;
         this.clearTime = rand.nextInt(5) + 5;
-        this.layer = layer;
-        this.groundLayer = groundLayer;
+//        this.layer = layer;
+//        this.groundLayer = groundLayer;
         this.gameObjects.addGameObject(this);
         this.setTag("leaf"); //TODO: add proper layer
     }
@@ -53,7 +50,6 @@ public class Leaf extends GameObject{
     }
 
     private int randX(int strech, int bound) {
-        Random rand = new Random();
         return (int) (rand.nextDouble() * strech + bound);
     }
 

@@ -20,8 +20,6 @@ import java.util.Random;
 public class Terrain implements GroundHeight {
     public static Random rand;
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
-    private static final char ROUND_DOWN = '-';
-    private static final int NUM_TOP_BLOCKS_COLLISION = 2;
     private GameObjectCollection gameObjects;
     private int groundLayer;
     private int leavesLayer;
@@ -84,7 +82,12 @@ public class Terrain implements GroundHeight {
                 Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 double y_height = this.windowDimensions.y()- i* Block.SIZE;
                 Vector2 vec = new Vector2(x, (float) (y_height));
-                gameObjects.addGameObject(new Block(vec, r), this.groundLayer);
+                if(i >= ((int)Math.floor(groundHeightAt(x)/Block.SIZE) - 3)){
+                    gameObjects.addGameObject(new Block(vec, r), this.groundLayer);
+                }
+                else {
+                    gameObjects.addGameObject(new Block(vec, r), this.groundLayer);
+                }
             }
         }
     }

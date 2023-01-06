@@ -2,9 +2,6 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
-import danogl.collisions.GameObjectCollection;
-import danogl.collisions.Layer;
-import danogl.components.Transition;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
@@ -14,17 +11,14 @@ import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.LayerFactory;
 import pepse.world.Avatar;
-import pepse.world.Block;
 import pepse.world.Sky;
 import pepse.world.Terrain;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
 import pepse.world.trees.Tree;
-import pepse.world.trees.leaves.Leaf;
 
 import java.awt.*;
-import java.time.temporal.TemporalAccessor;
 
 public class pepseGameManager extends GameManager {
     // Class variables
@@ -47,7 +41,8 @@ public class pepseGameManager extends GameManager {
      *                         concerning the window.
      */
     @Override
-    public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener inputListener, WindowController windowController) {
+    public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener
+            inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         LayerFactory layerFactory = new LayerFactory();
         Vector2 windowDims = windowController.getWindowDimensions();
@@ -65,13 +60,12 @@ public class pepseGameManager extends GameManager {
         GameObject sun = Sun.create(gameObjects(), layerFactory.chooseLayer("sun"),
                 windowDims, CYCLE);
         // Creates the sun-halo
-        SunHalo.create(gameObjects(), layerFactory.chooseLayer("sunHalo"), sun, new Color(255, 255, 0, 60));
+        SunHalo.create(gameObjects(), layerFactory.chooseLayer("sunHalo"), sun, new Color(255, 255,
+                0, 60));
         // Creates the trees
         Tree tree = new Tree(gameObjects(), layerFactory.chooseLayer("tree"), windowDims, t );
         tree.createInRange(0, (int) windowDims.x());
-
-//        Avatar avatar = new Avatar(new Vector2(300, 300), new Vector2(100, 100), new RectangleRenderable(Color.CYAN));
-
+        // Creates the avatar
         Vector2 initialAvatarLoc = new Vector2(300,
                 600);
         Avatar avatar = Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"), new Vector2(300,
