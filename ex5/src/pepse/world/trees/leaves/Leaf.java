@@ -70,7 +70,7 @@ public class Leaf {
     }
 
     private void falling(){
-        //this.gameObjects.layers().shouldLayersCollide(layer, groundLayer, true);
+
         leaf.transform().setVelocityY(70);
         new Transition<Float>(leaf,
                 v -> leaf.transform().setVelocityX(v),

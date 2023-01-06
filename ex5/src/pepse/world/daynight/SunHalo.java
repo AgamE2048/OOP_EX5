@@ -11,6 +11,7 @@ import java.awt.*;
 public class SunHalo {
     // Class variables
     private static final float SUN_DIMS = 150;
+    private static final String SUN_HALO_TAG = "sunHalo";
 
     /**
      * This method returns a GameObject of type SunHalo
@@ -24,7 +25,7 @@ public class SunHalo {
                                     Color color){
         GameObject sunHalo = new GameObject(Vector2.ZERO, Vector2.ONES.mult(SUN_DIMS), new OvalRenderable(color));
         sunHalo.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
-        sunHalo.setTag("sunHalo");
+        sunHalo.setTag(SUN_HALO_TAG);
         sunHalo.addComponent((deltaTime) -> sunHalo.setCenter(sun.getCenter()));
         gameObjects.addGameObject(sunHalo, layer);
         return sunHalo;

@@ -13,6 +13,8 @@ public class Sun {
     // Class variables
     private static final float SUN_DIM = 100.0f;
     private static final float INITIAL_DEGREES = 5.0f;
+    private static final float FULL_CIRCLE  = 360.0f;
+    private static final double CYCLE_LENGTH_TIME =  2.65;
 
     /**
      * Creates a GameObject of type Sun
@@ -40,8 +42,8 @@ public class Sun {
         new Transition<Float>(sun,
                 (angle) -> sun.setCenter(new Vector2((float)(windowDimensions.x()/2 + windowDimensions.x()/2*Math.sin(5*angle)),
                         (float)(windowDimensions.y()*1.3 -windowDimensions.y()*1.15*Math.cos(5*angle)))),
-                INITIAL_DEGREES, INITIAL_DEGREES+360.0F,
-                Transition.LINEAR_INTERPOLATOR_FLOAT, (int)Math.pow(cycleLength, 2.65),
+                INITIAL_DEGREES, INITIAL_DEGREES+FULL_CIRCLE,
+                Transition.LINEAR_INTERPOLATOR_FLOAT, (int)Math.pow(cycleLength, CYCLE_LENGTH_TIME),
                 Transition.TransitionType.TRANSITION_LOOP, null);
         return sun;
     }
