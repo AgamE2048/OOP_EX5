@@ -14,6 +14,8 @@ import pepse.world.Block;
 import java.awt.*;
 import java.util.Random;
 
+import static pepse.world.Terrain.rand;
+
 public class Leaf extends GameObject{
     private static final Color BASE_COLOR_LEAVES = new Color(50, 200, 30);
     private static final int FADE_TIME = 7;
@@ -32,8 +34,7 @@ public class Leaf extends GameObject{
                 new RectangleRenderable(ColorSupplier.approximateColor(BASE_COLOR_LEAVES)));
         this.topLeftCorner = topLeftCorner;
         this.gameObjects = gameObjects;
-        Random rand = new Random();
-        this.lifeTime = rand.nextInt(30) + 5;
+        this.lifeTime =  rand.nextInt(30) + 5;
         this.clearTime = rand.nextInt(5) + 5;
         this.layer = layer;
         this.groundLayer = groundLayer;

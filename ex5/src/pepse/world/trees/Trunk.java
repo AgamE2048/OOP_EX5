@@ -9,7 +9,8 @@ import pepse.util.ColorSupplier;
 import pepse.world.Block;
 
 import java.awt.*;
-import java.util.Random;
+
+import static pepse.world.Terrain.rand;
 
 public class Trunk {
     // Class variables
@@ -69,9 +70,7 @@ public class Trunk {
      * @return a random number with the right constraints
      */
     private int randX(int strech, int bound) {
-        Random rand = new Random();
-        return rand.nextInt(strech) + bound;
-        //return (int) (rand.nextDouble() * strech + bound);
+        return (int) rand.nextDouble()*strech + bound;
     }
 
     private int roundX(int x, char c) {

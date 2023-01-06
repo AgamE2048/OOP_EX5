@@ -10,6 +10,7 @@ import pepse.util.GroundHeight;
 import pepse.util.PerlinNoise;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * This class has 2 main responsibilities:
@@ -17,6 +18,7 @@ import java.awt.*;
  * 2. Enables different objects to know what is the height of the ground at given X coordinate.
  */
 public class Terrain implements GroundHeight {
+    public static Random rand;
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final char ROUND_DOWN = '-';
     private static final int NUM_TOP_BLOCKS_COLLISION = 2;
@@ -37,15 +39,14 @@ public class Terrain implements GroundHeight {
      */
     public Terrain(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, int seed) {
         gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
+        this.rand = new Random(seed);
         this.gameObjects = gameObjects;
         this.groundLayer = layer;
         this.windowDimensions = windowDimensions;
         this.leavesLayer = Layer.STATIC_OBJECTS + 20;
-
         this.perlinNoise = new PerlinNoise(seed);
         //TODO: finish...
     }
-
 
     public Terrain(GameObjectCollection gameObjects, int layer, int leavesLayer, Vector2 windowDimensions,
                    int seed) {
