@@ -18,8 +18,10 @@ import java.awt.*;
 public class Terrain implements GroundHeight {
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private static final char ROUND_DOWN = '-';
+    private static final int NUM_TOP_BLOCKS_COLLISION = 2;
     private GameObjectCollection gameObjects;
     private int groundLayer;
+    private int leavesLayer;
     private Vector2 windowDimensions;
     private float groundHeightAtX0 = 300;
 
@@ -31,9 +33,21 @@ public class Terrain implements GroundHeight {
      * @return a GameObject of type Terrain
      */
     public Terrain(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, int seed) {
+        gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
         this.gameObjects = gameObjects;
         this.groundLayer = layer;
         this.windowDimensions = windowDimensions;
+        this.leavesLayer = Layer.STATIC_OBJECTS + 20;
+        //TODO: finish...
+    }
+
+
+    public Terrain(GameObjectCollection gameObjects, int layer, int leavesLayer, Vector2 windowDimensions,
+                   int seed) {
+        this.gameObjects = gameObjects;
+        this.groundLayer = layer;
+        this.windowDimensions = windowDimensions;
+        this.leavesLayer = leavesLayer;
         //TODO: finish...
     }
 
@@ -58,6 +72,9 @@ public class Terrain implements GroundHeight {
     public void createInRange(int minX, int maxX) {
         for (int x = roundX(minX, '-'); x < roundX(maxX, '+'); x+=Block.SIZE) {
             for (int i = 0; i < (int)Math.floor(groundHeightAt(x)/Block.SIZE); i++) {
+//                if(i>= (int)Math.floor(groundHeightAt(x)/Block.SIZE-NUM_TOP_BLOCKS_COLLISION)){
+//
+//                }
                 Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 double y_height = this.windowDimensions.y()- i* Block.SIZE;
                 Vector2 vec = new Vector2(x, (float) (y_height));

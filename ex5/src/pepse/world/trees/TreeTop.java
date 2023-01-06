@@ -23,6 +23,7 @@ public class TreeTop {
     }
 
     public void create(){
+
         Random rand = new Random();
         int radius = randX(3, 5);
         for (int r = -radius; r < radius; r++) {
@@ -30,9 +31,9 @@ public class TreeTop {
                 float num = rand.nextFloat() *(radius - Math.abs(r)) * (radius - Math.abs(c))
                         /(radius);
                 if(num > 0.3){
-                    Leaf leaf = new Leaf(gameObjects, this.layer+LEAVES_LAYET_ADDITION, this.layer);
                     Vector2 location = new Vector2(this.center.x() + r* Block.SIZE, this.center.y() + c * Block.SIZE);
-                    leaf.create(location);
+                    Leaf leaf = new Leaf(gameObjects, this.layer+LEAVES_LAYET_ADDITION, this.layer, location);
+                    leaf.create();
                 }
             }
         }
