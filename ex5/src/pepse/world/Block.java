@@ -34,5 +34,4 @@ public class Block extends GameObject {
         this.setTag("tree");
 
     }
-
 }
