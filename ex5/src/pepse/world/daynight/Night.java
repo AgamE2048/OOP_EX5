@@ -12,7 +12,9 @@ import java.util.function.Consumer;
 
 public class Night {
     // Class variables
-    private static final Float MIDNIGHT_OPACITY = 0.7f;
+    private static final float MIDNIGHT_OPACITY = 0.7f;
+    private static final String NIGHT_TAG = "night";
+    private static final float INITIAL_VAL = 0f;
 
     /**
      * This method returns a GameObject of type Night
@@ -30,10 +32,10 @@ public class Night {
                 new RectangleRenderable(Color.BLACK));
         night.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects.addGameObject(night, nightLayer);
-        night.setTag("night");
+        night.setTag(NIGHT_TAG);
 
         // Creating the transition for the opacity of the night (goes from day to night)
-        new Transition<Float>(night, night.renderer()::setOpaqueness, 0f, MIDNIGHT_OPACITY,
+        new Transition<Float>(night, night.renderer()::setOpaqueness, INITIAL_VAL, MIDNIGHT_OPACITY,
                 Transition.CUBIC_INTERPOLATOR_FLOAT, cycleLength/2,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
 
