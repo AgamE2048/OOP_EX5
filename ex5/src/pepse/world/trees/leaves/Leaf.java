@@ -1,10 +1,12 @@
 package pepse.world.trees.leaves;
 
 import danogl.GameObject;
+import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
 import danogl.components.ScheduledTask;
 import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
+import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 import pepse.world.Block;
@@ -12,10 +14,10 @@ import pepse.world.Block;
 import java.awt.*;
 import java.util.Random;
 
-public class Leaf {
+public class Leaf extends GameObject{
     private static final Color BASE_COLOR_LEAVES = new Color(50, 200, 30);
-    private static final int FADE_TIME = 5;
-    private GameObject leaf;
+    private static final int FADE_TIME = 7;
+
     private int lifeTime;
     private int clearTime;
 
@@ -23,28 +25,30 @@ public class Leaf {
     private Vector2 topLeftCorner;
     private int layer;
     private int groundLayer;
+    private Transition<Float> horizrontalTransition;
 
-    public Leaf(GameObjectCollection gameObjects, int layer, int groundLayer){
+    public Leaf(GameObjectCollection gameObjects, int layer, int groundLayer, Vector2 topLeftCorner){
+        super(topLeftCorner, Vector2.ONES.mult(Block.SIZE),
+                new RectangleRenderable(ColorSupplier.approximateColor(BASE_COLOR_LEAVES)));
+        this.topLeftCorner = topLeftCorner;
         this.gameObjects = gameObjects;
         Random rand = new Random();
         this.lifeTime = rand.nextInt(30) + 5;
         this.clearTime = rand.nextInt(5) + 5;
         this.layer = layer;
         this.groundLayer = groundLayer;
+        this.gameObjects.addGameObject(this);
+        this.setTag("leaf"); //TODO: add proper layer
     }
 
-    public GameObject create(Vector2 topLeftCorner){
-        this.topLeftCorner = topLeftCorner;
-        GameObject leaf = new GameObject(topLeftCorner, Vector2.ONES.mult(Block.SIZE), new
-                RectangleRenderable(ColorSupplier.approximateColor(BASE_COLOR_LEAVES)));
-        this.leaf = leaf;
-        this.gameObjects.addGameObject(leaf);
-        leaf.setTag("leaf"); //TODO: add proper layer
+    public GameObject create(){
+//        this.gameObjects.addGameObject(this);
+//        this.setTag("leaf"); //TODO: add proper layer
 
-        new ScheduledTask(leaf, (float)randX(10, 1), true, this::run);
-        new ScheduledTask(leaf, this.lifeTime, true, this::falling);
+        new ScheduledTask(this, (float)randX(10, 1), true, this::run);
+        new ScheduledTask(this, this.lifeTime, true, this::falling);
 
-        return leaf;
+        return this;
     }
 
     private int randX(int strech, int bound) {
@@ -56,33 +60,58 @@ public class Leaf {
         float angle = randX(10, 10);
         float size = randX(5,3);
 
-        new Transition<Float>(leaf,
-                a -> leaf.renderer().setRenderableAngle(a),
+        new Transition<Float>(this,
+                a -> this.renderer().setRenderableAngle(a),
                 -angle, angle,
                 Transition.LINEAR_INTERPOLATOR_FLOAT, 7,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
 
-        new Transition<Vector2>(leaf,
-                leaf::setDimensions,
+        new Transition<Vector2>(this,
+                this::setDimensions,
                 Vector2.ONES.mult(Block.SIZE - size), Vector2.ONES.mult(Block.SIZE + size),
                 Transition.LINEAR_INTERPOLATOR_VECTOR, 7,
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
     private void falling(){
-
-        leaf.transform().setVelocityY(70);
-        new Transition<Float>(leaf,
-                v -> leaf.transform().setVelocityX(v),
+        this.transform().setVelocityY(70);
+        this.horizrontalTransition = new Transition<Float>(this,
+                v -> this.transform().setVelocityX(v),
                 -30.0f, 30.0f,
                 Transition.CUBIC_INTERPOLATOR_FLOAT, 5,
                 Transition.TransitionType.TRANSITION_LOOP, null);
-        leaf.renderer().fadeOut(FADE_TIME, () -> new ScheduledTask(leaf, this.clearTime,
+        this.renderer().fadeOut(FADE_TIME, () -> new ScheduledTask(this, this.clearTime,
                 true, this::releaf));
+        addComponent(horizrontalTransition);
+
+
     }
 
     private void releaf(){
-        this.gameObjects.removeGameObject(leaf);
-        create(topLeftCorner);
+        //TODO: fix leaves!!!!
+        //this.gameObjects.removeGameObject(this);
+        create();
+        this.setTopLeftCorner(this.topLeftCorner);
+        this.renderer().setOpaqueness(1);
+//        this.transform().setVelocityY(0);
+//        this.transform().setVelocityX(0);
+    }
+
+    /**
+     * Called on the first frame of a collision.
+     *
+     * @param other     The GameObject with which a collision occurred.
+     * @param collision Information regarding this collision.
+     *                  A reasonable elastic behavior can be achieved with:
+     *                  setVelocity(getVelocity().flipped(collision.getNormal()));
+     */
+    @Override
+    public void onCollisionEnter(GameObject other, Collision collision) {
+        if(other.getTag().equals("ground")){
+            super.onCollisionEnter(other, collision);
+            this.transform().setVelocityX(0);
+            this.transform().setVelocityY(0);
+            this.removeComponent(horizrontalTransition);
+        }
     }
 }
