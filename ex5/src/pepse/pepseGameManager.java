@@ -9,6 +9,7 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import danogl.gui.rendering.Camera;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.LayerFactory;
@@ -71,7 +72,15 @@ public class pepseGameManager extends GameManager {
 
 //        Avatar avatar = new Avatar(new Vector2(300, 300), new Vector2(100, 100), new RectangleRenderable(Color.CYAN));
 
-        Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"), new Vector2(300, 600), inputListener, imageReader);
-
+        Vector2 initialAvatarLoc = new Vector2(300,
+                600);
+        Avatar avatar = Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"), new Vector2(300,
+                        600),
+                inputListener, imageReader);
+        setCamera(new Camera(avatar,
+                windowController.getWindowDimensions().mult(0.5f).subtract(initialAvatarLoc),
+                //Vector2.ZERO,
+                windowController.getWindowDimensions(),
+                windowController.getWindowDimensions()));
     }
 }

@@ -3,9 +3,11 @@ package pepse.world;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
+import danogl.components.CoordinateSpace;
 import danogl.components.ScheduledTask;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
+import danogl.gui.rendering.AnimationRenderable;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Counter;
@@ -16,6 +18,10 @@ import java.awt.event.KeyEvent;
 
 public class Avatar extends GameObject{
 
+    private static final String[] CLIPS = {"assets/pig_standing_while_walking.png", "assets" +
+            "/flying_pig_walking.png",
+             "assets/flying_pig_flying.png"};
+
     private static final float VELOCITY_X = 300;
     private static final float VELOCITY_Y = -300;
     private static final float GRAVITY = 500;
@@ -25,10 +31,15 @@ public class Avatar extends GameObject{
     private static final int JUMP_VELOCITY = -1;
     private static final int ACCELERATION_FROM_SKY = 500;
     public static final int INITIAL_ENERGY = 100;
+    private static final double TIME_BETWEEN_FRAMES = 4;
+    private static final int STANDING_PIG = 0;
+    private static final int PIG_WALKING = 1;
+    private static final int PIG_FLYING = 2;
 
     private static float energy;
     private final ImageReader imageReader;
     private UserInputListener inputListener;
+    private static Renderable[] renderedAvatarImages;
 
     /**
      * Construct a new GameObject instance.
@@ -51,10 +62,16 @@ public class Avatar extends GameObject{
                                 UserInputListener inputListener,
                                 ImageReader imageReader){
 
-        Renderable avatarRenderable = new RectangleRenderable(Color.black);
+        //Renderable avatarRenderable = new RectangleRenderable(Color.black);
+        Renderable avatarRenderable = new AnimationRenderable(CLIPS, imageReader, true, TIME_BETWEEN_FRAMES);
+        renderedAvatarImages = new Renderable[CLIPS.length];
+        for(int i=0;i<CLIPS.length;i++){
+            renderedAvatarImages[i] = imageReader.readImage(CLIPS[i], true);
+        }
+
         Avatar avatar = new Avatar(topLeftCorner, new Vector2(100, 100),
                 avatarRenderable, inputListener, imageReader);
-        avatar.renderer().setIsFlippedHorizontally(true);
+
 
         energy = INITIAL_ENERGY;
 
@@ -63,6 +80,10 @@ public class Avatar extends GameObject{
         avatar.transform().setAccelerationY(GRAVITY);
 
         gameObjects.addGameObject(avatar, layer);
+
+        avatar.renderer().setRenderable(avatarRenderable);
+
+        avatar.renderer().setRenderable(renderedAvatarImages[STANDING_PIG]);
 
         return avatar;
     }
@@ -91,23 +112,36 @@ public class Avatar extends GameObject{
     public void update(float deltaTime) {
         super.update(deltaTime);
         float xVel = 0;
-        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT))
+        if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
+            renderer().setRenderable(renderedAvatarImages[PIG_WALKING]);
+            renderer().setIsFlippedHorizontally(false);
             xVel -= VELOCITY_X;
-        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT))
+        }
+
+        if(inputListener.isKeyPressed(KeyEvent.VK_RIGHT)) {
+            renderer().setRenderable(renderedAvatarImages[PIG_WALKING]);
+            renderer().setIsFlippedHorizontally(true);
             xVel += VELOCITY_X;
+        }
+
         transform().setVelocityX(xVel);
 //        if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) && getVelocity().y() == 0)
 //            transform().setVelocityY(VELOCITY_Y);
         if(inputListener.isKeyPressed(KeyEvent.VK_SPACE) && inputListener.isKeyPressed(KeyEvent.VK_SHIFT)){
+            renderer().setRenderable(renderedAvatarImages[PIG_FLYING]);
             if(energy > 0){
                 energy -= 0.5;
                 transform().setVelocityY(VELOCITY_Y);
+                physics().preventIntersectionsFromDirection(Vector2.ZERO);
             }
+
         }
         else if(inputListener.isKeyPressed(KeyEvent.VK_SPACE)){
             if(getVelocity().y() == 0){
+                renderer().setRenderable(renderedAvatarImages[PIG_FLYING]);
                 transform().setVelocityY(VELOCITY_Y);
                 transform().setVelocityX(0);
+                physics().preventIntersectionsFromDirection(Vector2.ZERO);
             }
         }
 //        else{
@@ -115,6 +149,7 @@ public class Avatar extends GameObject{
 //        }
 //
         if(getVelocity().y() == 0){
+            renderer().setRenderable(renderedAvatarImages[STANDING_PIG]);
             energy += 0.5;
         }
     }
