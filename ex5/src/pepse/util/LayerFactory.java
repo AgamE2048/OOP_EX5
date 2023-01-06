@@ -13,6 +13,7 @@ public class LayerFactory {
     private static final String LEAVES = "leaf";
     private static final String OBJECTS = "gameObjects";
     private static final String UI = "UI";
+    private static final String AVATAR = "avatar";
 
     /**
      *
@@ -47,6 +48,9 @@ public class LayerFactory {
 
             case UI:
                 return Layer.UI;
+
+            case AVATAR:
+                return Layer.DEFAULT;
 
             default:
                 return 0;

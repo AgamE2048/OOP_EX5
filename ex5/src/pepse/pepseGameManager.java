@@ -9,8 +9,10 @@ import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
+import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.LayerFactory;
+import pepse.world.Avatar;
 import pepse.world.Block;
 import pepse.world.Sky;
 import pepse.world.Terrain;
@@ -66,6 +68,10 @@ public class pepseGameManager extends GameManager {
         // Creates the trees
         Tree tree = new Tree(gameObjects(), layerFactory.chooseLayer("tree"), windowDims, t );
         tree.createInRange(0, (int) windowDims.x());
+
+//        Avatar avatar = new Avatar(new Vector2(300, 300), new Vector2(100, 100), new RectangleRenderable(Color.CYAN));
+
+        Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"), new Vector2(300, 600), inputListener, imageReader);
 
     }
 }
