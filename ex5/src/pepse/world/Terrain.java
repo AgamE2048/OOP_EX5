@@ -78,39 +78,13 @@ public class Terrain implements GroundHeight {
      * @param maxX the end of the range
      */
     public void createInRange(int minX, int maxX) {
-        for (int x = roundX(minX, '-'); x < roundX(maxX, '+'); x+=Block.SIZE) {
+        for (int x = Math.floorDiv(minX, Block.SIZE); x < Math.floorDiv(maxX, Block.SIZE) + 1; x+=Block.SIZE) {
             for (int i = 0; i < (int)Math.floor(groundHeightAt(x)/Block.SIZE); i++) {
-//                if(i>= (int)Math.floor(groundHeightAt(x)/Block.SIZE-NUM_TOP_BLOCKS_COLLISION)){
-//
-//                }
                 Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
                 double y_height = this.windowDimensions.y()- i* Block.SIZE;
                 Vector2 vec = new Vector2(x, (float) (y_height));
                 gameObjects.addGameObject(new Block(vec, r), this.groundLayer);
             }
         }
-    }
-
-    /**
-     *
-     * @param x the number we want to round
-     * @param c chooses where we round Up or down
-     * @return the closest multiple of Block.SIZE to x rounded based on c
-     */
-    private int roundX(int x, char c) {
-        int num = 0;
-        if(c == ROUND_DOWN){
-            while(num < x)
-                num += Block.SIZE;
-            while(num > x)
-                num -= Block.SIZE;
-        }
-        else{
-            while(num > x)
-                num -= Block.SIZE;
-            while(num < x)
-                num += Block.SIZE;
-        }
-        return num;
     }
 }
