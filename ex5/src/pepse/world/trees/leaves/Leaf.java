@@ -16,7 +16,7 @@ import java.util.Random;
 
 public class Leaf extends GameObject{
     private static final Color BASE_COLOR_LEAVES = new Color(50, 200, 30);
-    private static final int FADE_TIME = 5;
+    private static final int FADE_TIME = 7;
 
     private int lifeTime;
     private int clearTime;
@@ -93,8 +93,8 @@ public class Leaf extends GameObject{
         create();
         this.setTopLeftCorner(this.topLeftCorner);
         this.renderer().setOpaqueness(1);
- //       this.transform().setVelocityY(0);
- //       this.transform().setVelocityX(0);
+//        this.transform().setVelocityY(0);
+//        this.transform().setVelocityX(0);
     }
 
     /**
@@ -107,9 +107,11 @@ public class Leaf extends GameObject{
      */
     @Override
     public void onCollisionEnter(GameObject other, Collision collision) {
-        super.onCollisionEnter(other, collision);
-        this.transform().setVelocityX(0);
-        this.transform().setVelocityY(0);
-        this.removeComponent(horizrontalTransition);
+        if(other.getTag().equals("ground")){
+            super.onCollisionEnter(other, collision);
+            this.transform().setVelocityX(0);
+            this.transform().setVelocityY(0);
+            this.removeComponent(horizrontalTransition);
+        }
     }
 }
