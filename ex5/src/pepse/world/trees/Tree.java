@@ -60,8 +60,7 @@ public class Tree {
      * @return a random number with the right constraints
      */
     private int randX(int strech, int bound) {
-        Random rand = new Random();
-        return (int) (rand.nextDouble() * strech + bound);
+        return (int) (Terrain.rand.nextDouble() * strech + bound);
     }
 
 }

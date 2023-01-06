@@ -7,7 +7,7 @@ import danogl.util.Vector2;
 import pepse.world.Block;
 import pepse.world.trees.leaves.Leaf;
 
-import java.util.Random;
+import static pepse.world.Terrain.rand;
 
 public class TreeTop {
 
@@ -24,7 +24,6 @@ public class TreeTop {
 
     public void create(){
 
-        Random rand = new Random();
         int radius = randX(3, 5);
         for (int r = -radius; r < radius; r++) {
             for (int c = -radius; c < radius; c++) {
@@ -40,7 +39,6 @@ public class TreeTop {
     }
 
     private int randX(int strech, int bound) {
-        Random rand = new Random();
         return (int) (rand.nextDouble() * strech + bound);
     }
 
