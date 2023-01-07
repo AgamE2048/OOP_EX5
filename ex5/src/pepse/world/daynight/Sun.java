@@ -11,10 +11,10 @@ import java.awt.*;
 
 public class Sun {
     // Class variables
-    private static final float SUN_DIM = 100.0f;
+    protected static final float SUN_DIM = 100.0f;
     private static final float INITIAL_DEGREES = 5.0f;
-    private static final float FULL_CIRCLE  = 360.0f;
-    private static final double CYCLE_LENGTH_TIME =  2.65;
+    protected static final float FULL_CIRCLE  = 360.0f;
+    protected static final double CYCLE_LENGTH_TIME =  2.65;
 
     /**
      * Creates a GameObject of type Sun
@@ -26,9 +26,7 @@ public class Sun {
      */
     public static GameObject create(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions,
                                     float cycleLength){
-        GameObject sun = new GameObject(Vector2.ZERO,
-                new Vector2(SUN_DIM,
-                SUN_DIM),
+        GameObject sun = new GameObject(Vector2.ZERO, new Vector2(SUN_DIM, SUN_DIM),
                 new OvalRenderable(Color.YELLOW));
 
         // Initiates the GameObject

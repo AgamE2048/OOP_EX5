@@ -14,6 +14,7 @@ import pepse.world.Avatar;
 import pepse.world.Block;
 import pepse.world.Sky;
 import pepse.world.Terrain;
+import pepse.world.daynight.Moon;
 import pepse.world.daynight.Night;
 import pepse.world.daynight.Sun;
 import pepse.world.daynight.SunHalo;
@@ -55,6 +56,7 @@ public class pepseGameManager extends GameManager {
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener
             inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
+        windowController.setTargetFramerate(80);
         this.layerFactory = new LayerFactory();
         Vector2 windowDims = windowController.getWindowDimensions();
         this.beginningWorld = (int)(-windowDims.x());
@@ -88,6 +90,8 @@ public class pepseGameManager extends GameManager {
         // Creates the sun-halo
         SunHalo.create(gameObjects(), this.layerFactory.chooseLayer("sunHalo"), sun, new Color(255, 255,
                 0, 60));
+        GameObject moon = Moon.create(gameObjects(), this.layerFactory.chooseLayer("sun"),
+                windowDims, CYCLE);
     }
 
     private void groundCreate(Vector2 windowDims) {
@@ -139,7 +143,7 @@ public class pepseGameManager extends GameManager {
                     (int) LOCATION_EXTRA_WORLD + initial_center,
                     (int) (aang.getCenter().x() + LOCATION_EXTRA_WORLD));
 
-        } else if (aang.getCenter().x() < initial_center) {
+        } if (aang.getCenter().x() < initial_center) {
 
             groundCreator.createInRange(
                     (int) (aang.getCenter().x() - LOCATION_EXTRA_WORLD),

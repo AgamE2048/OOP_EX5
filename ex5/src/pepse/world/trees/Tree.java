@@ -56,7 +56,7 @@ public class Tree {
              x < (int) (Block.SIZE * (Math.floor((maxX / Block.SIZE)))); x += Block.SIZE) {
 //            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
             Random rand = new Random(Objects.hash(x, Terrain.seed));
-            if (rand.nextInt(100) > 90) {
+            if (shouldPlantTreeAt(x, rand)) {
                 Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x), x,
                         this.layer);
                 trunk.create();
@@ -65,6 +65,11 @@ public class Tree {
                 top.create();
             }
         }
+    }
+
+    private boolean shouldPlantTreeAt(int index, Random rand) {
+        int divideFactor = 4 * (int) Block.SIZE;
+        return index % divideFactor == 0 && rand.nextInt(100) / 100.0 < 0.2;
     }
 
     /**
