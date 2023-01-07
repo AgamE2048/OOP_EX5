@@ -51,7 +51,7 @@ public class Trunk {
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
         Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, height); //Rollback
         gameObjects.addGameObject(trunk, this.layer);
-        trunk.setTag("tree_trunk");
+        trunk.setTag("tree");
         return trunk;
     }
 

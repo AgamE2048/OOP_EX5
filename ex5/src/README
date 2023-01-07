@@ -17,7 +17,7 @@ can be seen in the UML diagram).
 More over, we have a class that generates the perlin noise to the ground and the terrain class, we have here
 also composition between classes, the terrain has an object of noise that it's contains.
 
-The Avatar and leaves classes inherits from GameObject class, and the pepseGameManager inherits from
+Note: The Avatar and leaves classes inherits from GameObject class, and the pepseGameManager inherits from
 GameManager.
 
 We also many more private methods to the different classes, in order to change the code to a modular code
@@ -27,7 +27,14 @@ which can be read easily.
 
 
 *********** INFINITE WORLD  ***********
+In this section, we will explain our implementation of the infinite world, which allows our character to go to
+ the world in the directions without the world to end [like what happens in Minecraft - A popular video game
+ which world with blocks and 3D objects].
 
+ We implemented the infinite world with a base of a finite world. Every time our character [we chose a flying
+ pig -- more explanation on that later] goes to the ranges out of the screen, we create the world at the
+ coordinates of the new Screen (the one that the character walks in to) and delete the objects that no-longer
+ on the screen.
 
 *********** END INFINITE WORLD ***********
 
