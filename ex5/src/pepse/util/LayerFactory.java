@@ -57,4 +57,17 @@ public class LayerFactory {
 
         }
     }
+
+    public boolean shouldErase(String obj){
+        switch (obj){
+            case AVATAR:
+            case NIGHT:
+            case SKY:
+            case SUN:
+            case SUN_HALO:
+                return false;
+            default:
+                return true;
+        }
+    }
 }

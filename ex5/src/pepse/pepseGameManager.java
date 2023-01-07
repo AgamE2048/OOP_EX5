@@ -56,7 +56,7 @@ public class pepseGameManager extends GameManager {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         this.layerFactory = new LayerFactory();
         Vector2 windowDims = windowController.getWindowDimensions();
-        this.beginningWorld = (int)(-windowDims.x()* 0.5);
+        this.beginningWorld = (int)(-windowDims.x());
         this.endWorld = (int)(windowDims.x() * 1.5);
         this.windowWidth = (int) windowDims.x();
         this.initial_center = (int) (windowDims.x()/2);
@@ -106,6 +106,7 @@ public class pepseGameManager extends GameManager {
         Vector2 initialAvatarLoc = new Vector2(windowDims.x() * 0.5F, (float) ((Math.floor(groundCreator.groundHeightAt(windowDims.x() * 0.5F)/ Block.SIZE) - 1) * Block.SIZE));//windowDims.mult(0.5F);
         this.avatar = Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"),
                 initialAvatarLoc, inputListener, imageReader);
+        this.avatar.setTag("avatar");
         avatar.setCenter(new Vector2(windowDims.x() * 0.5F, windowDims.y() * 0.2F));
         setCamera(new Camera(avatar, new Vector2(windowDims.x()*0.5F - initialAvatarLoc.x(), -initialAvatarLoc.y() * 0.6F),
                 windowDims, windowDims));
@@ -147,7 +148,9 @@ public class pepseGameManager extends GameManager {
                 System.out.println(this.beginningWorld);
                 System.out.println(this.endWorld);
                 //System.out.println();
-                this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
+                if(this.layerFactory.shouldErase(obj.getTag())) {
+                    this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
+                }
                 //, this.layerFactory.chooseLayer(obj.getTag())
             }
         }
