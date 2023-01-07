@@ -20,7 +20,6 @@ public class TreeTop {
         this.gameObjects = gameObjects;
         this.center = center;
         this.layer = layer;
-        System.out.println("Layer at Tree-top:" + this.layer);
     }
 
     public void create(){

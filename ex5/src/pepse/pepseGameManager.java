@@ -70,7 +70,9 @@ public class pepseGameManager extends GameManager {
         this.gameObjects().layers().shouldLayersCollide(layerFactory.chooseLayer("leaf"),
                 layerFactory.chooseLayer("ground"),
                 true);
-        System.out.println("Leaf layer = " + layerFactory.chooseLayer("leaf"));
+        this.gameObjects().layers().shouldLayersCollide(layerFactory.chooseLayer("avatar"),
+                layerFactory.chooseLayer("tree"),
+                true);
     }
 
     private void skyCreate(Vector2 windowDims) {
@@ -104,7 +106,7 @@ public class pepseGameManager extends GameManager {
         Vector2 initialAvatarLoc = new Vector2(windowDims.x() * 0.5F, (float) ((Math.floor(groundCreator.groundHeightAt(windowDims.x() * 0.5F)/ Block.SIZE) - 1) * Block.SIZE));//windowDims.mult(0.5F);
         this.avatar = Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"),
                 initialAvatarLoc, inputListener, imageReader);
-        avatar.setCenter(initialAvatarLoc);
+        avatar.setCenter(new Vector2(windowDims.x() * 0.5F, windowDims.y() * 0.2F));
         setCamera(new Camera(avatar, new Vector2(windowDims.x()*0.5F - initialAvatarLoc.x(), -initialAvatarLoc.y() * 0.6F),
                 windowDims, windowDims));
     }
@@ -116,7 +118,7 @@ public class pepseGameManager extends GameManager {
             expandWorld();
             initial_center = (int) this.avatar.getCenter().x();
         }
-        deleteObjects();
+//        deleteObjects();
     }
 
     private void expandWorld() {
@@ -142,8 +144,8 @@ public class pepseGameManager extends GameManager {
     private void deleteObjects() {
         for (GameObject obj:this.gameObjects()) {
             if(obj.getCenter().x() > this.endWorld || obj.getCenter().x() < this.beginningWorld){
-                //System.out.println(this.beginningWorld);
-                //System.out.println(this.endWorld);
+                System.out.println(this.beginningWorld);
+                System.out.println(this.endWorld);
                 //System.out.println();
                 this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
                 //, this.layerFactory.chooseLayer(obj.getTag())

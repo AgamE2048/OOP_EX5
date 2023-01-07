@@ -42,14 +42,13 @@ public class Tree {
      * @param maxX the end of the range
      */
     public void createInRange(int minX, int maxX) {
-        System.out.println(this.layer);
         for (int x = minX - 100 + randX(250, 150); x < maxX; x += randX(250, 150)) {
-            int new_x = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
-            Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(new_x),new_x,
+            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
+            Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(newX),newX,
                     this.layer);
             trunk.create();
-            TreeTop top = new TreeTop(gameObjects, new Vector2(new_x,
-                    (this.windowDimensions.y() - (trunk.getHeight()+ ground.groundHeightAt(new_x)))), this.layer);
+            TreeTop top = new TreeTop(gameObjects, new Vector2(newX,
+                    (this.windowDimensions.y() - (trunk.getHeight()+ ground.groundHeightAt(newX)))), this.layer);
             top.create();
             }
     }
