@@ -18,6 +18,7 @@ import static pepse.world.Terrain.rand;
 public class Leaf extends GameObject{
     private static final Color BASE_COLOR_LEAVES = new Color(50, 200, 30);
     private static final int FADE_TIME = 7;
+    private final int layer;
 
     private int lifeTime;
     private int clearTime;
@@ -33,9 +34,10 @@ public class Leaf extends GameObject{
         this.gameObjects = gameObjects;
         this.lifeTime =  rand.nextInt(30) + 5;
         this.clearTime = rand.nextInt(5) + 5;
-//        this.layer = layer;
+        this.layer = layer;
 //        this.groundLayer = groundLayer;
-        this.gameObjects.addGameObject(this);
+        this.gameObjects.addGameObject(this, layer);
+        //System.out.println(this.layer);
         this.setTag("leaf"); //TODO: add proper layer
     }
 

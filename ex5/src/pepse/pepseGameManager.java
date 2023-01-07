@@ -66,6 +66,11 @@ public class pepseGameManager extends GameManager {
         groundCreate(windowDims);
         // Creates the avatar
         avatarCreate(windowDims, inputListener, imageReader);
+
+        this.gameObjects().layers().shouldLayersCollide(layerFactory.chooseLayer("leaf"),
+                layerFactory.chooseLayer("ground"),
+                true);
+        System.out.println("Leaf layer = " + layerFactory.chooseLayer("leaf"));
     }
 
     private void skyCreate(Vector2 windowDims) {
@@ -137,9 +142,9 @@ public class pepseGameManager extends GameManager {
     private void deleteObjects() {
         for (GameObject obj:this.gameObjects()) {
             if(obj.getCenter().x() > this.endWorld || obj.getCenter().x() < this.beginningWorld){
-                System.out.println(this.beginningWorld);
-                System.out.println(this.endWorld);
-                System.out.println();
+                //System.out.println(this.beginningWorld);
+                //System.out.println(this.endWorld);
+                //System.out.println();
                 this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
                 //, this.layerFactory.chooseLayer(obj.getTag())
             }

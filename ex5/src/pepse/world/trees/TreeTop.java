@@ -11,7 +11,7 @@ import static pepse.world.Terrain.rand;
 
 public class TreeTop {
 
-    private static final int LEAVES_LAYET_ADDITION = 20;
+    private static final int LEAVES_LAYER_ADDITION = 10;
     private final int layer;
     private GameObjectCollection gameObjects;
     private final Vector2 center;
@@ -20,6 +20,7 @@ public class TreeTop {
         this.gameObjects = gameObjects;
         this.center = center;
         this.layer = layer;
+        System.out.println("Layer at Tree-top:" + this.layer);
     }
 
     public void create(){
@@ -30,7 +31,8 @@ public class TreeTop {
                         /(radius);
                 if(num > 0.3){
                     Vector2 location = new Vector2(this.center.x() + r* Block.SIZE, this.center.y() + c * Block.SIZE);
-                    Leaf leaf = new Leaf(gameObjects, this.layer+LEAVES_LAYET_ADDITION, this.layer, location);
+                    Leaf leaf = new Leaf(gameObjects, this.layer+LEAVES_LAYER_ADDITION, this.layer, location);
+                    //System.out.println(this.layer+LEAVES_LAYER_ADDITION);
                     leaf.create();
                 }
             }

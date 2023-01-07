@@ -36,25 +36,28 @@ public class Terrain implements GroundHeight {
      * @return a GameObject of type Terrain
      */
     public Terrain(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, int seed) {
-        gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
+        //gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
         this.rand = new Random(seed);//TODO Random(Objects.hash(60,seed));
         this.gameObjects = gameObjects;
         this.groundLayer = layer;
         this.windowDimensions = windowDimensions;
-        this.leavesLayer = Layer.STATIC_OBJECTS + 20;
+        //this.leavesLayer = Layer.STATIC_OBJECTS + 20;
         this.noiseGenerator = new NoiseGenerator(seed);
+        this.groundHeightAtX0 = windowDimensions.y()*2/3;
         //TODO: finish...
     }
 
-    public Terrain(GameObjectCollection gameObjects, int layer, int leavesLayer, Vector2 windowDimensions,
-                   int seed) {
-        this.gameObjects = gameObjects;
-        this.groundLayer = layer;
-        this.windowDimensions = windowDimensions;
-        this.leavesLayer = leavesLayer;
-        //TODO: finish...
-        this.noiseGenerator = new NoiseGenerator(seed);
-    }
+//    public Terrain(GameObjectCollection gameObjects, int layer, int leavesLayer, Vector2 windowDimensions,
+//                   int seed) {
+//        //gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
+//        this.gameObjects = gameObjects;
+//        this.groundLayer = layer;
+//        this.windowDimensions = windowDimensions;
+//        //this.leavesLayer = leavesLayer;
+//        //TODO: finish...
+//        this.noiseGenerator = new NoiseGenerator(seed);
+//        this.groundHeightAtX0 = windowDimensions.y()*2/3;
+//    }
 
     /**
      *
