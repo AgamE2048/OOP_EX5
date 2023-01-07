@@ -1,7 +1,6 @@
 package pepse.world;
 
 import danogl.collisions.GameObjectCollection;
-import danogl.collisions.Layer;
 import danogl.gui.rendering.RectangleRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
@@ -10,7 +9,6 @@ import pepse.util.GroundHeight;
 import pepse.util.NoiseGenerator;
 
 import java.awt.*;
-import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -23,9 +21,9 @@ public class Terrain implements GroundHeight {
     private static final Color BASE_GROUND_COLOR = new Color(212, 123, 74);
     private GameObjectCollection gameObjects;
     private int groundLayer;
-    private int leavesLayer;
+    public static int seed;
     private Vector2 windowDimensions;
-    private float groundHeightAtX0 = 300;
+    private float groundHeightAtX0;
     private final NoiseGenerator noiseGenerator;
 
     /**
@@ -36,28 +34,15 @@ public class Terrain implements GroundHeight {
      * @return a GameObject of type Terrain
      */
     public Terrain(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, int seed) {
-        //gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
         this.rand = new Random(seed);//TODO Random(Objects.hash(60,seed));
         this.gameObjects = gameObjects;
         this.groundLayer = layer;
         this.windowDimensions = windowDimensions;
-        //this.leavesLayer = Layer.STATIC_OBJECTS + 20;
+        this.seed = seed;
         this.noiseGenerator = new NoiseGenerator(seed);
         this.groundHeightAtX0 = windowDimensions.y()*2/3;
         //TODO: finish...
     }
-
-//    public Terrain(GameObjectCollection gameObjects, int layer, int leavesLayer, Vector2 windowDimensions,
-//                   int seed) {
-//        //gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
-//        this.gameObjects = gameObjects;
-//        this.groundLayer = layer;
-//        this.windowDimensions = windowDimensions;
-//        //this.leavesLayer = leavesLayer;
-//        //TODO: finish...
-//        this.noiseGenerator = new NoiseGenerator(seed);
-//        this.groundHeightAtX0 = windowDimensions.y()*2/3;
-//    }
 
     /**
      *

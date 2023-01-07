@@ -2,6 +2,7 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
+import danogl.components.ScheduledTask;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
@@ -24,10 +25,10 @@ public class pepseGameManager extends GameManager {
     // Class variables
     private static final int CYCLE = 30;
     private static final int LOCATION_EXTRA_WORLD = 1000;
-    private static final int DISTANCE_TO_EXTRA_WORLD = 600;
+    private static final int DISTANCE_TO_EXTRA_WORLD = 2;
     private static int windowWidth;
     private int initial_center;
-    private Avatar avatar;
+    private Avatar aang;
     private int beginningWorld;
     private int endWorld;
     private LayerFactory layerFactory;
@@ -97,63 +98,93 @@ public class pepseGameManager extends GameManager {
         groundCreator.createInRange(beginningWorld, endWorld);
         // Creates the trees
         this.treeCreator = new Tree(gameObjects(), layerFactory.chooseLayer("tree"), windowDims,
-                groundCreator::groundHeightAt );
+                groundCreator::groundHeightAt);
         treeCreator.createInRange(beginningWorld, endWorld);
     }
 
     private void avatarCreate(Vector2 windowDims, UserInputListener inputListener, ImageReader imageReader) {
         // Creates the avatar
         Vector2 initialAvatarLoc = new Vector2(windowDims.x() * 0.5F, (float) ((Math.floor(groundCreator.groundHeightAt(windowDims.x() * 0.5F)/ Block.SIZE) - 1) * Block.SIZE));//windowDims.mult(0.5F);
-        this.avatar = Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"),
+        this.aang = Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"),
                 initialAvatarLoc, inputListener, imageReader);
-        this.avatar.setTag("avatar");
-        avatar.setCenter(new Vector2(windowDims.x() * 0.5F, windowDims.y() * 0.2F));
-        setCamera(new Camera(avatar, new Vector2(windowDims.x()*0.5F - initialAvatarLoc.x(), -initialAvatarLoc.y() * 0.6F),
+        this.aang.setTag("avatar");
+        aang.setCenter(new Vector2(windowDims.x() * 0.5F, windowDims.y() * 0.2F));
+        setCamera(new Camera(aang, new Vector2(windowDims.x()*0.5F - initialAvatarLoc.x(), -initialAvatarLoc.y() * 0.3F),
                 windowDims, windowDims));
+        new ScheduledTask(camera(), 0.5F, true, this::expandWorld);
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if(Math.abs(this.avatar.getCenter().x() - initial_center) >= LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD){
-            System.out.println("here");
-            initial_center = (int) this.avatar.getCenter().x();
-            expandWorld();
+        if(Math.abs(this.aang.getCenter().x() - initial_center) >= windowWidth/2){
+//            deleteObjects();
+//            expandWorld();
         }
 //        deleteObjects();
     }
 
     private void expandWorld() {
-        if(this.avatar.getCenter().x() > initial_center){
-            groundCreator.createInRange(endWorld - DISTANCE_TO_EXTRA_WORLD,
-                    endWorld +LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
-            treeCreator.createInRange(endWorld - DISTANCE_TO_EXTRA_WORLD,
-                    endWorld +LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
-            this.beginningWorld = endWorld;
-            this.endWorld += windowWidth + DISTANCE_TO_EXTRA_WORLD;
+        float center = aang.transform().getCenter().x();
+        deleteObjects(this.layerFactory.chooseLayer("tree"), center);
+        deleteObjects(this.layerFactory.chooseLayer("leaf"), center);
+        deleteObjects(this.layerFactory.chooseLayer("ground"), center);
+
+        if (aang.getCenter().x() > initial_center) {
+            groundCreator.createInRange(
+                    (int) LOCATION_EXTRA_WORLD + initial_center,
+                    (int) (aang.getCenter().x() + LOCATION_EXTRA_WORLD));
+
+            treeCreator.createInRange(
+                    (int) LOCATION_EXTRA_WORLD + initial_center,
+                    (int) (aang.getCenter().x() + LOCATION_EXTRA_WORLD));
+
+        } else if (aang.getCenter().x() < initial_center) {
+
+            groundCreator.createInRange(
+                    (int) (aang.getCenter().x() - LOCATION_EXTRA_WORLD),
+                    (int) (-LOCATION_EXTRA_WORLD + initial_center));
+
+            treeCreator.createInRange(
+                    (int) (aang.getCenter().x() - LOCATION_EXTRA_WORLD),
+                    (int) -(LOCATION_EXTRA_WORLD + initial_center));
         }
-        if(this.avatar.getCenter().x() < initial_center){
-            groundCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
-                    beginningWorld + DISTANCE_TO_EXTRA_WORLD);
-            treeCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
-                    beginningWorld + DISTANCE_TO_EXTRA_WORLD);
-            this.endWorld = beginningWorld;
-            this.beginningWorld -= (windowWidth + DISTANCE_TO_EXTRA_WORLD);
-        }
-        deleteObjects();
+        initial_center = (int) center;
+//        activeTerrainRange = new Vector2(-REFRESH_DISTANCE + center, REFRESH_DISTANCE + center);
     }
 
-    private void deleteObjects() {
-        for (GameObject obj:this.gameObjects()) {
-            if(obj.getCenter().x() > this.endWorld || obj.getCenter().x() < this.beginningWorld){
-                System.out.println(this.beginningWorld);
-                System.out.println(this.endWorld);
-                //System.out.println();
-                if(this.layerFactory.shouldErase(obj.getTag())) {
-                    this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
-                }
-                //, this.layerFactory.chooseLayer(obj.getTag())
+//    private void expandWorld() {
+//        if(this.aang.getCenter().x() > initial_center){
+//            groundCreator.createInRange(endWorld, endWorld + windowWidth - DISTANCE_TO_EXTRA_WORLD);
+//            treeCreator.createInRange(endWorld, endWorld + windowWidth - DISTANCE_TO_EXTRA_WORLD);
+//            this.beginningWorld = endWorld - DISTANCE_TO_EXTRA_WORLD;
+//            this.endWorld += windowWidth + DISTANCE_TO_EXTRA_WORLD;
+//        }
+//        if(this.aang.getCenter().x() < initial_center){
+//            groundCreator.createInRange(beginningWorld - (windowWidth + DISTANCE_TO_EXTRA_WORLD),
+//                    beginningWorld);
+//            treeCreator.createInRange(beginningWorld - (windowWidth + DISTANCE_TO_EXTRA_WORLD),
+//                    beginningWorld);
+//            this.endWorld = beginningWorld + DISTANCE_TO_EXTRA_WORLD;
+//            this.beginningWorld -= (windowWidth + DISTANCE_TO_EXTRA_WORLD);
+//        }
+//        initial_center = (int) this.aang.getCenter().x();
+//    }
+
+    private void deleteObjects(int layer, float worldCenter) {
+        for (var obj : gameObjects()) {
+            var distanceScreenCenter = Math.abs(obj.getCenter().x() - worldCenter);
+            if (distanceScreenCenter > LOCATION_EXTRA_WORLD) {
+                gameObjects().removeGameObject(obj, layer);
             }
         }
+            //int layer) {
+//        for (GameObject obj:this.gameObjects()) {
+//            if(obj.getCenter().x() > this.endWorld || obj.getCenter().x() < this.beginningWorld){
+//                if(this.layerFactory.shouldErase(obj.getTag())) {
+//                    this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
+//                }
+//            }
+//        }
     }
 }

@@ -3,14 +3,12 @@ package pepse.world;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
-import danogl.components.ScheduledTask;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.AnimationRenderable;
 import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Avatar extends GameObject{
@@ -31,7 +29,7 @@ public class Avatar extends GameObject{
     private static final float VELOCITY_Y = -300;
     private static final float GRAVITY = 400;
     public static final int INITIAL_ENERGY = 100;
-    private static final double TIME_BETWEEN_FRAMES = 0.5;
+    private static final double TIME_BETWEEN_FRAMES = 0.2;
     private static final int STANDING_PIG = 0;
     private static final int PIG_WALKING = 1;
     private static final int PIG_FLYING = 2;

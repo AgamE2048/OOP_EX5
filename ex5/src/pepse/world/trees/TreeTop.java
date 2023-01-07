@@ -1,11 +1,8 @@
 package pepse.world.trees;
 
-import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
-import danogl.collisions.Layer;
 import danogl.util.Vector2;
 import pepse.world.Block;
-import pepse.world.trees.leaves.Leaf;
 
 import static pepse.world.Terrain.rand;
 
