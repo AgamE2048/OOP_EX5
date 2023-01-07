@@ -7,7 +7,7 @@ import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 import pepse.util.GroundHeight;
-import pepse.util.PerlinNoise;
+import pepse.util.NoiseGenerator;
 
 import java.awt.*;
 import java.util.Random;
@@ -26,7 +26,7 @@ public class Terrain implements GroundHeight {
     private Vector2 windowDimensions;
     private float groundHeightAtX0 = 300;
     private int PERLIN_MULT = 50;
-    private final PerlinNoise perlinNoise;
+    private final NoiseGenerator noiseGenerator;
 
     /**
      Creates a GameObject of type Terrain
@@ -42,7 +42,7 @@ public class Terrain implements GroundHeight {
         this.groundLayer = layer;
         this.windowDimensions = windowDimensions;
         this.leavesLayer = Layer.STATIC_OBJECTS + 20;
-        this.perlinNoise = new PerlinNoise(seed);
+        this.noiseGenerator = new NoiseGenerator(seed);
         //TODO: finish...
     }
 
@@ -53,7 +53,7 @@ public class Terrain implements GroundHeight {
         this.windowDimensions = windowDimensions;
         this.leavesLayer = leavesLayer;
         //TODO: finish...
-        this.perlinNoise = new PerlinNoise(seed);
+        this.noiseGenerator = new NoiseGenerator(seed);
     }
 
     /**
@@ -63,9 +63,7 @@ public class Terrain implements GroundHeight {
      */
     @Override
     public float groundHeightAt(float x) {
-//        return (float)(250+25*Math.sin((int)(x/30)*25) + 25*Math.cos((int)(x/30)*45));
-//        return groundHeightAtX0;
-        return groundHeightAtX0 + Block.SIZE * ((int) perlinNoise.noise(x/Block.SIZE)*PERLIN_MULT);
+        return (float) (groundHeightAtX0+this.noiseGenerator.noise(x) * 100);
         //TODO: change according to functionality.
     }
 

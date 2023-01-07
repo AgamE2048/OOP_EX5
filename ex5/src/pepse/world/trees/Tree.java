@@ -16,7 +16,6 @@ import java.util.Random;
 
 public class Tree {
     // Class variables
-    private static final char ROUND_DOWN = '-';
     private final GameObjectCollection gameObjects;
     private final int layer;
     private final Vector2 windowDimensions;
@@ -44,11 +43,12 @@ public class Tree {
      */
     public void createInRange(int minX, int maxX) {
         for (int x = minX - 100 + randX(250, 150); x < maxX; x += randX(250, 150)) {
-            Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x),x,
+            int new_x = (int) (Block.SIZE*(Math.floor(Math.abs(x/Block.SIZE))));
+            Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(new_x),new_x,
                     this.layer);
             trunk.create();
-            TreeTop top = new TreeTop(gameObjects, new Vector2(x,
-                    (this.windowDimensions.y() - (trunk.getHeight()+ ground.groundHeightAt(x)))), this.layer);
+            TreeTop top = new TreeTop(gameObjects, new Vector2(new_x,
+                    (this.windowDimensions.y() - (trunk.getHeight()+ ground.groundHeightAt(new_x)))), this.layer);
             top.create();
             }
     }

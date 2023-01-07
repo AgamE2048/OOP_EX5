@@ -48,7 +48,7 @@ public class Trunk {
         this.height = randX(150, 300);
         float x = (float) (Block.SIZE*(Math.floor(Math.abs(this.locOfX/Block.SIZE))));
         float y = (float) (windowDimensions.y() -
-                (Block.SIZE*(Math.floor(Math.abs(groundHeight/Block.SIZE))) - 2));
+                (Block.SIZE*(Math.floor(Math.abs(groundHeight/Block.SIZE)))));
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
         Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, height); //Rollback
         gameObjects.addGameObject(trunk, this.layer);

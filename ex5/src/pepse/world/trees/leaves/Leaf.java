@@ -80,18 +80,14 @@ public class Leaf extends GameObject{
         this.renderer().fadeOut(FADE_TIME, () -> new ScheduledTask(this, this.clearTime,
                 false, this::releaf));
         addComponent(horizrontalTransition);
-
-
     }
 
     private void releaf(){
-        //TODO: fix leaves!!!!
-        //this.gameObjects.removeGameObject(this);
         create();
         this.setTopLeftCorner(this.topLeftCorner);
         this.renderer().setOpaqueness(1);
-//        this.transform().setVelocityY(0);
-//        this.transform().setVelocityX(0);
+        this.transform().setVelocityY(0);
+        this.transform().setVelocityX(0);
     }
 
     /**
@@ -106,9 +102,10 @@ public class Leaf extends GameObject{
     public void onCollisionEnter(GameObject other, Collision collision) {
         if(other.getTag().equals("ground")){
             super.onCollisionEnter(other, collision);
+            this.removeComponent(horizrontalTransition);
             this.transform().setVelocityX(0);
             this.transform().setVelocityY(0);
-            this.removeComponent(horizrontalTransition);
+            //TODO- explain n README that we wanted the leaves to move slightly on the ground with the breeze, like in reality
         }
     }
 }
