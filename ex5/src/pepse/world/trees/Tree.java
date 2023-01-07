@@ -43,7 +43,7 @@ public class Tree {
      */
     public void createInRange(int minX, int maxX) {
         for (int x = minX - 100 + randX(250, 150); x < maxX; x += randX(250, 150)) {
-            int new_x = (int) (Block.SIZE*(Math.floor(Math.abs(x/Block.SIZE))));
+            int new_x = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
             Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(new_x),new_x,
                     this.layer);
             trunk.create();

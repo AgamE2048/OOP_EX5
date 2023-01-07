@@ -23,8 +23,7 @@ public class TreeTop {
     }
 
     public void create(){
-
-        int radius = randX(3, 5);
+        int radius = randX(2, 5);
         for (int r = -radius; r < radius; r++) {
             for (int c = -radius; c < radius; c++) {
                 float num = rand.nextFloat() *(radius - Math.abs(r)) * (radius - Math.abs(c))

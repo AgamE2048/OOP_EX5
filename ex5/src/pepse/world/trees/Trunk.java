@@ -14,7 +14,6 @@ import static pepse.world.Terrain.rand;
 
 public class Trunk {
     // Class variables
-    private static final char ROUND_DOWN = '-';
     private static final Color BASE_TRUNK_COLOR = new Color(100, 50, 20);
     private final float groundHeight;
     private final GameObjectCollection gameObjects;
@@ -46,7 +45,7 @@ public class Trunk {
      */
     public GameObject create(){
         this.height = randX(150, 300);
-        float x = (float) (Block.SIZE*(Math.floor(Math.abs(this.locOfX/Block.SIZE))));
+        float x = (float) (Block.SIZE*(Math.floor((this.locOfX/Block.SIZE))));
         float y = (float) (windowDimensions.y() -
                 (Block.SIZE*(Math.floor(Math.abs(groundHeight/Block.SIZE)))));
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));

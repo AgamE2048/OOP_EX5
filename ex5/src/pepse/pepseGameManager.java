@@ -7,7 +7,6 @@ import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.WindowController;
 import danogl.gui.rendering.Camera;
-import danogl.gui.rendering.RectangleRenderable;
 import danogl.util.Vector2;
 import pepse.util.LayerFactory;
 import pepse.world.Avatar;
@@ -25,7 +24,7 @@ public class pepseGameManager extends GameManager {
     // Class variables
     private static final int CYCLE = 30;
     private static final int LOCATION_EXTRA_WORLD = 1000;
-    private static final int DISTANCE_TO_EXTRA_WORLD = 25;
+    private static final int DISTANCE_TO_EXTRA_WORLD = 600;
     private int initial_center;
     private Avatar avatar;
     private int beginningWorld;
@@ -56,9 +55,9 @@ public class pepseGameManager extends GameManager {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
         this.layerFactory = new LayerFactory();
         Vector2 windowDims = windowController.getWindowDimensions();
-        this.beginningWorld = 0;
-        this.endWorld = (int) windowDims.x();
-        this.initial_center = endWorld/2;
+        this.beginningWorld = (int)(-windowDims.x()* 0.5);
+        this.endWorld = (int)(windowDims.x() * 1.5);
+        this.initial_center = (int) (windowDims.x()/2);
         // Create sky-related objects
         skyCreate(windowDims);
         // Creates ground-related objects
@@ -110,18 +109,40 @@ public class pepseGameManager extends GameManager {
             expandWorld();
             initial_center = (int) this.avatar.getCenter().x();
         }
-
+        deleteObjects();
     }
 
     private void expandWorld() {
         if(this.avatar.getCenter().x() > initial_center){
-            this.beginningWorld += LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD;
+            groundCreator.createInRange(endWorld - DISTANCE_TO_EXTRA_WORLD,
+                    endWorld +LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
+            treeCreator.createInRange(endWorld - DISTANCE_TO_EXTRA_WORLD,
+                    endWorld +LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
+            this.beginningWorld = endWorld - DISTANCE_TO_EXTRA_WORLD;
             this.endWorld += LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD;
-            groundCreator.createInRange(beginningWorld, endWorld);
-            treeCreator.createInRange(beginningWorld, endWorld);
         }
         else{
+            groundCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
+                    beginningWorld + DISTANCE_TO_EXTRA_WORLD);
+            treeCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
+                    beginningWorld + DISTANCE_TO_EXTRA_WORLD);
+            this.endWorld = beginningWorld;
+            this.beginningWorld -= (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
+        }
+        System.out.println(this.beginningWorld);
+        System.out.println(this.endWorld);
+        deleteObjects();
+    }
 
+    private void deleteObjects() {
+        for (GameObject obj:this.gameObjects()) {
+            if(obj.getCenter().x() > this.endWorld || obj.getCenter().x() < this.beginningWorld){
+                System.out.println(this.beginningWorld);
+                System.out.println(this.endWorld);
+                System.out.println();
+                this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
+                //, this.layerFactory.chooseLayer(obj.getTag())
+            }
         }
     }
 }

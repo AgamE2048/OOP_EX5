@@ -10,6 +10,7 @@ import pepse.util.GroundHeight;
 import pepse.util.NoiseGenerator;
 
 import java.awt.*;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -25,7 +26,6 @@ public class Terrain implements GroundHeight {
     private int leavesLayer;
     private Vector2 windowDimensions;
     private float groundHeightAtX0 = 300;
-    private int PERLIN_MULT = 50;
     private final NoiseGenerator noiseGenerator;
 
     /**
@@ -37,7 +37,7 @@ public class Terrain implements GroundHeight {
      */
     public Terrain(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, int seed) {
         gameObjects.layers().shouldLayersCollide(leavesLayer, this.groundLayer, true);
-        this.rand = new Random(seed);
+        this.rand = new Random(seed);//TODO Random(Objects.hash(60,seed));
         this.gameObjects = gameObjects;
         this.groundLayer = layer;
         this.windowDimensions = windowDimensions;
@@ -74,7 +74,7 @@ public class Terrain implements GroundHeight {
      * @param maxX the end of the range
      */
     public void createInRange(int minX, int maxX) {
-        for (int x = (int) (Block.SIZE*(Math.floor(Math.abs(minX/Block.SIZE)))); x <
+        for (int x = (int) (Block.SIZE*(Math.floor((minX/Block.SIZE)))); x <
                 Block.SIZE*(Math.ceil(Math.abs(maxX/Block.SIZE))); x+=Block.SIZE) {
             for (int i = 0; i < (int)Math.floor(groundHeightAt(x)/Block.SIZE); i++) {
                 Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_GROUND_COLOR)));
