@@ -25,6 +25,7 @@ public class pepseGameManager extends GameManager {
     private static final int CYCLE = 30;
     private static final int LOCATION_EXTRA_WORLD = 1000;
     private static final int DISTANCE_TO_EXTRA_WORLD = 600;
+    private static int windowWidth;
     private int initial_center;
     private Avatar avatar;
     private int beginningWorld;
@@ -57,6 +58,7 @@ public class pepseGameManager extends GameManager {
         Vector2 windowDims = windowController.getWindowDimensions();
         this.beginningWorld = (int)(-windowDims.x()* 0.5);
         this.endWorld = (int)(windowDims.x() * 1.5);
+        this.windowWidth = (int) windowDims.x();
         this.initial_center = (int) (windowDims.x()/2);
         // Create sky-related objects
         skyCreate(windowDims);
@@ -118,8 +120,8 @@ public class pepseGameManager extends GameManager {
                     endWorld +LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
             treeCreator.createInRange(endWorld - DISTANCE_TO_EXTRA_WORLD,
                     endWorld +LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
-            this.beginningWorld = endWorld - DISTANCE_TO_EXTRA_WORLD;
-            this.endWorld += LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD;
+            this.beginningWorld = endWorld;
+            this.endWorld += windowWidth + DISTANCE_TO_EXTRA_WORLD;
         }
         else{
             groundCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
@@ -127,10 +129,8 @@ public class pepseGameManager extends GameManager {
             treeCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
                     beginningWorld + DISTANCE_TO_EXTRA_WORLD);
             this.endWorld = beginningWorld;
-            this.beginningWorld -= (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD);
+            this.beginningWorld -= (windowWidth + DISTANCE_TO_EXTRA_WORLD);
         }
-        System.out.println(this.beginningWorld);
-        System.out.println(this.endWorld);
         deleteObjects();
     }
 
