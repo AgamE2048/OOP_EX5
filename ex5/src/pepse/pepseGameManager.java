@@ -89,7 +89,7 @@ public class pepseGameManager extends GameManager {
 
     private void groundCreate(Vector2 windowDims) {
         // Creates the ground
-        this.groundCreator = new Terrain(gameObjects(), this.layerFactory.chooseLayer("terrain"),
+        this.groundCreator = new Terrain(gameObjects(), this.layerFactory.chooseLayer("ground"),
                 windowDims
                 , 0);
         groundCreator.createInRange(beginningWorld, endWorld);
