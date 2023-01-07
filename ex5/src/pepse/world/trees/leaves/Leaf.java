@@ -102,9 +102,12 @@ public class Leaf extends GameObject{
     public void onCollisionEnter(GameObject other, Collision collision) {
         if(other.getTag().equals("ground")){
             super.onCollisionEnter(other, collision);
+//            super.update(0);
             this.removeComponent(horizrontalTransition);
             this.transform().setVelocityX(0);
             this.transform().setVelocityY(0);
+            this.transform().setAcceleration(0,0);
+
             //TODO- explain n README that we wanted the leaves to move slightly on the ground with the breeze, like in reality
         }
     }

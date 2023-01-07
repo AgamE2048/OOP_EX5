@@ -26,6 +26,7 @@ public class Avatar extends GameObject{
     private static final int STANDING_PIG = 0;
     private static final int PIG_WALKING = 1;
     private static final int PIG_FLYING = 2;
+    private static final int MAX_VEL = 500;
 
     private static float energy;
     private UserInputListener inputListener;
@@ -134,6 +135,10 @@ public class Avatar extends GameObject{
         if(getVelocity().y() == 0){
             renderer().setRenderable(renderedAvatarImages[STANDING_PIG]);
             energy += 0.5;
+        }
+
+        if(getVelocity().y() >= MAX_VEL){
+            transform().setVelocityY(MAX_VEL);
         }
     }
 }
