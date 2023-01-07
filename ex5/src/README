@@ -1,0 +1,48 @@
+agam_e
+<yuvali's cse username>
+
+
+*********** Explanations on UML Diagrams ***********
+As cited in ex'5 pdf, we built 2 UML diagrams. The first one represent our design before we started to write
+the code of ex'5 (just after we read the pdf that was given to us).
+The second one we built while we wrote the code of Ex'5, while we were writing the code, we changed a lot in
+our design, added new classes for tree trunk, factory for the layers, class for the tree top, class for the
+leaves and even a functional interface to get the height of the ground from trees.
+
+A note about the leaf, TreeTop, Tree and Trunk classes: A treeTop create many objects of leaves which has
+their own behaviour (the one that cited in the ex'5 pdf), and the Tree class creates objects of TreeTop and
+Trunk for one tree at a time. so we can see that there is an object composition between classes (which also
+can be seen in the UML diagram).
+
+More over, we have a class that generates the perlin noise to the ground and the terrain class, we have here
+also composition between classes, the terrain has an object of noise that it's contains.
+
+The Avatar and leaves classes inherits from GameObject class, and the pepseGameManager inherits from
+GameManager.
+
+We also many more private methods to the different classes, in order to change the code to a modular code
+which can be read easily.
+
+*********** END UML DIAGRAMS EXPLANATION ***********
+
+
+*********** INFINITE WORLD  ***********
+
+
+*********** END INFINITE WORLD ***********
+
+
+*********** EXPLANATION ON PLANTING TREES ***********
+
+
+*********** END OF EXPLANATION ON PLANTING TREES ***********
+
+
+*********** DESIGN ISSUES ***********
+
+*********** END DESIGN ISSUES ***********
+
+
+*********** BONUS ***********
+
+*********** END BONUS ***********

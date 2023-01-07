@@ -34,9 +34,10 @@ public class Sun {
         // Initiates the GameObject
         Vector2 sunLoc = new Vector2(windowDimensions.x()*0.5f, windowDimensions.y()*0.15f);
         sun.setCenter(sunLoc);
-        sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
+
         gameObjects.addGameObject(sun, layer);
         sun.setTag("sun");
+        sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
 
         // Create the transition of the sun going round the world
         new Transition<Float>(sun,

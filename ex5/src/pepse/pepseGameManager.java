@@ -115,9 +115,10 @@ public class pepseGameManager extends GameManager {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if(Math.abs(this.avatar.getCenter().x() -initial_center) >= LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD){
-            expandWorld();
+        if(Math.abs(this.avatar.getCenter().x() - initial_center) >= LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD){
+            System.out.println("here");
             initial_center = (int) this.avatar.getCenter().x();
+            expandWorld();
         }
 //        deleteObjects();
     }
@@ -131,7 +132,7 @@ public class pepseGameManager extends GameManager {
             this.beginningWorld = endWorld;
             this.endWorld += windowWidth + DISTANCE_TO_EXTRA_WORLD;
         }
-        else{
+        if(this.avatar.getCenter().x() < initial_center){
             groundCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
                     beginningWorld + DISTANCE_TO_EXTRA_WORLD);
             treeCreator.createInRange(beginningWorld - (LOCATION_EXTRA_WORLD - DISTANCE_TO_EXTRA_WORLD),
