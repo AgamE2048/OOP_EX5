@@ -30,11 +30,7 @@ public class Avatar extends GameObject{
     private static final float GRAVITY = 400;
     public static final int INITIAL_ENERGY = 100;
     private static final double TIME_BETWEEN_FRAMES = 0.2;
-    private static final int STANDING_PIG = 0;
-    private static final int PIG_WALKING = 1;
-    private static final int PIG_FLYING = 2;
     private static final int MAX_VEL = 500;
-    private static final int PIG_FLYING_2 = 3;
 
     private static float energy;
     private UserInputListener inputListener;
