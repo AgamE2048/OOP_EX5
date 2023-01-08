@@ -27,5 +27,6 @@ public class Sky {
         gameObjects.addGameObject(sky, layer);
         sky.setTag("sky");
         return sky;
+
     }
 }
