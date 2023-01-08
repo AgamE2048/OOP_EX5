@@ -21,7 +21,8 @@ public class Avatar extends GameObject{
             ".png", "assets/pig_standing_3.png", "assets/pig_standing_4.png"};
 
     private static final String[] CLIPS_WALKING = {"assets/pig_walking_1.png", "assets/pig_walking_2.png",
-            "assets/pig_walking_3.png", "assets/pig_walking_4.png", "assets/pig_walking_5.png"};
+            "assets/pig_walking_3.png", "assets/pig_walking_4.png", "assets/pig_walking_5.png", "assets" +
+            "/pig_standing_1.png"};
 
     private static final String[] CLIPS_FLYING = {"assets/pig_standing_1.png", "assets/pig_standing_2" +
             ".png", "assets/pig_standing_3.png"};
@@ -131,6 +132,12 @@ public class Avatar extends GameObject{
     public void update(float deltaTime) {
         super.update(deltaTime);
         float xVel = 0;
+
+        if(getVelocity().y() == 0){
+            renderer().setRenderable(avatarRenderableStanding);
+            energy += 0.5;
+        }
+
         if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
             renderer().setRenderable(avatarRenderableWalking);
             renderer().setIsFlippedHorizontally(false);
@@ -162,10 +169,7 @@ public class Avatar extends GameObject{
                 physics().preventIntersectionsFromDirection(Vector2.ZERO);
             }
         }
-        if(getVelocity().y() == 0){
-            renderer().setRenderable(avatarRenderableStanding);
-            energy += 0.5;
-        }
+
 
         if(getVelocity().y() >= MAX_VEL){
             transform().setVelocityY(MAX_VEL);
