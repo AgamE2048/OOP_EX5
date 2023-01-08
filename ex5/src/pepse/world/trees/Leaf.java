@@ -12,6 +12,7 @@ import pepse.util.ColorSupplier;
 import pepse.world.Block;
 
 import java.awt.*;
+import java.util.Random;
 
 import static pepse.world.Terrain.rand;
 
@@ -74,6 +75,7 @@ public class Leaf extends GameObject{
 
     private void falling(){
         this.transform().setVelocityY(70);
+        this.renderer().setRenderable(new RectangleRenderable(ColorSupplier.approximateColor(chooseColor())));
         this.horizrontalTransition = new Transition<Float>(this,
                 v -> this.transform().setVelocityX(v),
                 -30.0f, 30.0f,
@@ -82,6 +84,13 @@ public class Leaf extends GameObject{
         this.renderer().fadeOut(FADE_TIME, () -> new ScheduledTask(this, this.clearTime,
                 false, this::releaf));
         addComponent(horizrontalTransition);
+    }
+
+    private Color chooseColor() {
+        Random rand = new Random();
+        double num = rand.nextDouble();
+        if(num < 0.5) return new Color(156, 36, 6);
+        return new Color(243, 188, 46);
     }
 
     private void releaf(){
