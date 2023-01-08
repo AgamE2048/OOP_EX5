@@ -16,12 +16,11 @@ public class LayerFactory {
     private static final String AVATAR = "avatar";
 
     /**
-     *
      * @param obj a String whose layer we want
-     * @returnthe layer we want to place obj at
+     * @return the layer we want to place obj at
      */
-    public int chooseLayer(String obj){
-        switch(obj){
+    public int chooseLayer(String obj) {
+        switch (obj) {
             case SKY:
                 return Layer.BACKGROUND;
 
@@ -55,19 +54,6 @@ public class LayerFactory {
             default:
                 return 0;
 
-        }
-    }
-
-    public boolean shouldErase(String obj){
-        switch (obj){
-            case AVATAR:
-            case NIGHT:
-            case SKY:
-            case SUN:
-            case SUN_HALO:
-                return false;
-            default:
-                return true;
         }
     }
 }

@@ -12,6 +12,7 @@ import java.awt.*;
 public class Sun {
     // Class variables
     protected static final float SUN_DIM = 100.0f;
+    protected static final String SUN_TAG = "sun";
     private static final float INITIAL_DEGREES = 5.0f;
     protected static final float FULL_CIRCLE  = 360.0f;
     protected static final double CYCLE_LENGTH_TIME =  2.65;
@@ -34,7 +35,7 @@ public class Sun {
         sun.setCenter(sunLoc);
 
         gameObjects.addGameObject(sun, layer);
-        sun.setTag("sun");
+        sun.setTag(SUN_TAG);
         sun.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
 
         // Create the transition of the sun going round the world

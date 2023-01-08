@@ -44,17 +44,15 @@ public class Tree {
     public void createInRange(int minX, int maxX) {
         minX = minX - Math.floorMod(minX, Block.SIZE);
         maxX = maxX - Math.floorMod(maxX, Block.SIZE);
-        for (int y: indeces) {
+        for (int y : indeces) {
 //            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
             //Random rand = new Random(Objects.hash(x, Terrain.seed));
             //if (shouldPlantTreeAt(x, rand)) {
             int x = y + minX;
-                Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x), x,
-                        this.layer);
-                trunk.create();
-                TreeTop top = new TreeTop(gameObjects, new Vector2(x,
-                        (this.windowDimensions.y() - (trunk.getHeight() + ground.groundHeightAt(x)))), this.layer);
-                top.create();
+            Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x), x, this.layer);
+            trunk.create();
+            TreeTop top = new TreeTop(gameObjects, new Vector2(x, (this.windowDimensions.y() - (trunk.getHeight() + ground.groundHeightAt(x)))), this.layer);
+            top.create();
             //}
         }
     }
@@ -78,14 +76,4 @@ public class Tree {
         int divideFactor = 4 * (int) Block.SIZE;
         return index % divideFactor == 0 && rand.nextInt(100) / 100.0 < 0.2;
     }
-
-    /**
-     * @param strech how much of a range we want
-     * @param bound  lower bound of the random number
-     * @return a random number with the right constraints
-     */
-    private int randX(int strech, int bound) {
-        return (int) (Terrain.rand.nextDouble() * strech + bound);
-    }
-
 }

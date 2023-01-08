@@ -27,7 +27,7 @@ public class TreeTop {
                         /(radius);
                 if(num > 0.3){
                     Vector2 location = new Vector2(this.center.x() + r* Block.SIZE, this.center.y() + c * Block.SIZE);
-                    Leaf leaf = new Leaf(gameObjects, this.layer+LEAVES_LAYER_ADDITION, this.layer, location);
+                    Leaf leaf = new Leaf(gameObjects, this.layer+LEAVES_LAYER_ADDITION, location);
                     //System.out.println(this.layer+LEAVES_LAYER_ADDITION);
                     leaf.create();
                 }
