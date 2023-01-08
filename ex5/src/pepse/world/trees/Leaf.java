@@ -111,6 +111,9 @@ public class Leaf extends GameObject {
         this.renderer().setOpaqueness(1);
         this.transform().setVelocityY(0);
         this.transform().setVelocityX(0);
+        this.renderer().setRenderable((new RectangleRenderable
+                (ColorSupplier.approximateColor(BASE_COLOR_LEAVES))));
+
         create();
     }
 
