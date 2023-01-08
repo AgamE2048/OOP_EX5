@@ -34,11 +34,11 @@ public class Terrain implements GroundHeight {
      * @return a GameObject of type Terrain
      */
     public Terrain(GameObjectCollection gameObjects, int layer, Vector2 windowDimensions, int seed) {
-        this.rand = new Random(seed);//TODO Random(Objects.hash(60,seed));
+        rand = new Random(seed);//TODO Random(Objects.hash(60,seed));
         this.gameObjects = gameObjects;
         this.groundLayer = layer;
         this.windowDimensions = windowDimensions;
-        this.seed = seed;
+        Terrain.seed = seed;
         this.noiseGenerator = new NoiseGenerator(seed);
         this.groundHeightAtX0 = windowDimensions.y()*2/3;
         //TODO: finish...

@@ -17,6 +17,7 @@ public class Tree {
     private final int layer;
     private final Vector2 windowDimensions;
     private final GroundHeight ground;
+    private final static int indeces[] = {60, 420, 990, 1260};
 
     /**
      * Creates a GameObject of type Tree
@@ -40,32 +41,38 @@ public class Tree {
      * @param minX the beginning of the range
      * @param maxX the end of the range
      */
-//    public void createInRange(int minX, int maxX) {
-//        for (int x = minX - 100 + randX(1000, 10); x < maxX - 6*Block.SIZE; x += randX(1000, 10)) {
-//            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
-//            Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(newX),newX,
-//                    this.layer);
-//            trunk.create();
-//            TreeTop top = new TreeTop(gameObjects, new Vector2(newX,
-//                    (this.windowDimensions.y() - (trunk.getHeight()+ ground.groundHeightAt(newX)))), this.layer);
-//            top.create();
-//            }
-//    }
     public void createInRange(int minX, int maxX) {
-        for (int x = (int) (Block.SIZE * (Math.floor((minX / Block.SIZE))));
-             x < (int) (Block.SIZE * (Math.floor((maxX / Block.SIZE)))); x += Block.SIZE) {
+        minX = minX - Math.floorMod(minX, Block.SIZE);
+        maxX = maxX - Math.floorMod(maxX, Block.SIZE);
+        for (int y: indeces) {
 //            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
-            Random rand = new Random(Objects.hash(x, Terrain.seed));
-            if (shouldPlantTreeAt(x, rand)) {
+            //Random rand = new Random(Objects.hash(x, Terrain.seed));
+            //if (shouldPlantTreeAt(x, rand)) {
+            int x = y + minX;
                 Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x), x,
                         this.layer);
                 trunk.create();
                 TreeTop top = new TreeTop(gameObjects, new Vector2(x,
                         (this.windowDimensions.y() - (trunk.getHeight() + ground.groundHeightAt(x)))), this.layer);
                 top.create();
-            }
+            //}
         }
     }
+//    public void createInRange(int minX, int maxX) {
+//        for (int x = (int) (Block.SIZE * (Math.floor((minX / Block.SIZE))));
+//             x < (int) (Block.SIZE * (Math.floor((maxX / Block.SIZE)))); x += 40*Block.SIZE) {
+////            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
+//            //Random rand = new Random(Objects.hash(x, Terrain.seed));
+//            //if (shouldPlantTreeAt(x, rand)) {
+//                Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x), x,
+//                        this.layer);
+//                trunk.create();
+//                TreeTop top = new TreeTop(gameObjects, new Vector2(x,
+//                        (this.windowDimensions.y() - (trunk.getHeight() + ground.groundHeightAt(x)))), this.layer);
+//                top.create();
+//            //}
+//        }
+//    }
 
     private boolean shouldPlantTreeAt(int index, Random rand) {
         int divideFactor = 4 * (int) Block.SIZE;

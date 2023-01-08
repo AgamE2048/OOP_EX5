@@ -85,11 +85,11 @@ public class Leaf extends GameObject{
     }
 
     private void releaf(){
-        create();
         this.setTopLeftCorner(this.topLeftCorner);
         this.renderer().setOpaqueness(1);
         this.transform().setVelocityY(0);
         this.transform().setVelocityX(0);
+        create();
     }
 
     /**
