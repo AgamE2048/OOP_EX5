@@ -4,14 +4,11 @@ import danogl.collisions.GameObjectCollection;
 import danogl.util.Vector2;
 import pepse.util.GroundHeight;
 import pepse.world.Block;
-import pepse.world.Terrain;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 import java.util.Random;
 
 public class Tree {
+    private static final double TREE_PROBABILITY = 0.1;
     // Class variables
     private final GameObjectCollection gameObjects;
     private final int layer;
@@ -45,35 +42,22 @@ public class Tree {
         minX = minX - Math.floorMod(minX, Block.SIZE);
         maxX = maxX - Math.floorMod(maxX, Block.SIZE);
         for (int y : indeces) {
-//            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
-            //Random rand = new Random(Objects.hash(x, Terrain.seed));
-            //if (shouldPlantTreeAt(x, rand)) {
             int x = y + minX;
             Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x), x, this.layer);
             trunk.create();
-            TreeTop top = new TreeTop(gameObjects, new Vector2(x, (this.windowDimensions.y() - (trunk.getHeight() + ground.groundHeightAt(x)))), this.layer);
+            TreeTop top = new TreeTop(gameObjects, new Vector2(x, (this.windowDimensions.y() - 
+                    (trunk.getHeight() + ground.groundHeightAt(x)))), this.layer);
             top.create();
-            //}
         }
     }
-//    public void createInRange(int minX, int maxX) {
-//        for (int x = (int) (Block.SIZE * (Math.floor((minX / Block.SIZE))));
-//             x < (int) (Block.SIZE * (Math.floor((maxX / Block.SIZE)))); x += 40*Block.SIZE) {
-////            int newX = (int) (Block.SIZE*(Math.floor((x/Block.SIZE))));
-//            //Random rand = new Random(Objects.hash(x, Terrain.seed));
-//            //if (shouldPlantTreeAt(x, rand)) {
-//                Trunk trunk = new Trunk(gameObjects, windowDimensions, ground.groundHeightAt(x), x,
-//                        this.layer);
-//                trunk.create();
-//                TreeTop top = new TreeTop(gameObjects, new Vector2(x,
-//                        (this.windowDimensions.y() - (trunk.getHeight() + ground.groundHeightAt(x)))), this.layer);
-//                top.create();
-//            //}
-//        }
-//    }
 
-    private boolean shouldPlantTreeAt(int index, Random rand) {
-        int divideFactor = 4 * (int) Block.SIZE;
-        return index % divideFactor == 0 && rand.nextInt(100) / 100.0 < 0.2;
+    /**
+     * Creates a single tree with its trunk centered at the given x index.
+     *
+     * @param rand  Random object for randomization.
+     * @return true or false based on whether to plant a tree there or not
+     */
+    private boolean shouldPlantTreeAt(Random rand) {
+        return rand.nextDouble() < TREE_PROBABILITY;
     }
 }

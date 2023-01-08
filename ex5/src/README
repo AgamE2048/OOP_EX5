@@ -1,55 +1,66 @@
 agam_e
-<yuvali's cse username>
+yuvli027
 
 
-*********** Explanations on UML Diagrams ***********
-As cited in ex'5 pdf, we built 2 UML diagrams. The first one represent our design before we started to write
-the code of ex'5 (just after we read the pdf that was given to us).
-The second one we built while we wrote the code of Ex'5, while we were writing the code, we changed a lot in
-our design, added new classes for tree trunk, factory for the layers, class for the tree top, class for the
-leaves and even a functional interface to get the height of the ground from trees.
-
-A note about the leaf, TreeTop, Tree and Trunk classes: A treeTop create many objects of leaves which has
-their own behaviour (the one that cited in the ex'5 pdf), and the Tree class creates objects of TreeTop and
-Trunk for one tree at a time. so we can see that there is an object composition between classes (which also
-can be seen in the UML diagram).
-
-More over, we have a class that generates the perlin noise to the ground and the terrain class, we have here
-also composition between classes, the terrain has an object of noise that it's contains.
-
-Note: The Avatar and leaves classes inherits from GameObject class, and the pepseGameManager inherits from
-GameManager.
-
-We also many more private methods to the different classes, in order to change the code to a modular code
-which can be read easily.
-
-*********** END UML DIAGRAMS EXPLANATION ***********
-
-
-*********** INFINITE WORLD  ***********
-In this section, we will explain our implementation of the infinite world, which allows our character to go to
- the world in the directions without the world to end [like what happens in Minecraft - A popular video game
- which world with blocks and 3D objects].
 
  We implemented the infinite world with a base of a finite world. Every time our character [we chose a flying
  pig -- more explanation on that later] goes to the ranges out of the screen, we create the world at the
  coordinates of the new Screen (the one that the character walks in to) and delete the objects that no-longer
- on the screen.
+ on the screen, save the place of the trees that was genererated before in order to create the pseudo-random
+ behavoiur.
 
 *********** END INFINITE WORLD ***********
 
 
 *********** EXPLANATION ON PLANTING TREES ***********
 
+In this section, we will exspain on the planting trees algorithm.
+
+First, we have some classes that responsible for creating trees. We have the Leaf- that is responsible for
+the leaf behaviour (inclding the transition of the leaves and the recreation of the leaves).
+We also have a TreeTop class that resposible of creating the leaves of the tree itself, a Trunk
+class that responsible to create the trunk of the trees - which made of block, and the Tree class
+which is responsible to create all the parts of the tree itself., which get the ground height via
+a functional interface that terrain is implementing.
+
+A note on behaviour of leaves. In order to create the desired functionality of leaves creating on the tree and
+recreate, we create 2 scheduled tasks that responsible to this functionality, we also create transitions to make
+leaves see that they fall in the wind, change size and use the faseOut method to create the functionality of
+faded leaves (more exsplanatio in the code of ex'5).
 
 *********** END OF EXPLANATION ON PLANTING TREES ***********
 
 
 *********** DESIGN ISSUES ***********
 
+In this section, we will talk about the design issues that went while we written the ex5 code.
+First,we had a problem that the Terrain andthe Trees use the Block class (as written in the pdf that
+it is a bad programming). So we added a functional interface with the function groundHeightAtX0, that our
+terrain implements.
+
+We added a factory for the different layers for the different objects. We use it in order to add the object in
+the correct layer and delete it from the correct layer.
+
 *********** END DESIGN ISSUES ***********
 
 
 *********** BONUS ***********
+
+Here, we will talk about the bonus part (insert a partying emoji here).
+
+First of all, we changed the Avater to be a flying pig! (In the gesture of  the pig from minecraft - Reuben).
+It also jumps when it stands becuse it is exited to explore the world!!
+
+More over, we thought to ourselves so... "we have a sun, so why don't we have a moon?". As you can guess,
+we added a moon to the game :)
+
+So why stop there, let's add a energy bar so te user can see what is going on with the energy of the charcter.
+So... we added an energy bar.
+
+And if we also have a leaves that fall down, we added the functionality that they change a color, into a
+bscission color.
+
+And one last thing, beware of sinkholes. You should not fall into them, else you
+will get to the doom, so you must play carefully.
 
 *********** END BONUS ***********

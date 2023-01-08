@@ -4,8 +4,6 @@ import danogl.GameObject;
 import danogl.collisions.GameObjectCollection;
 import danogl.components.CoordinateSpace;
 import danogl.components.Transition;
-import danogl.gui.ImageReader;
-import danogl.gui.rendering.ImageRenderable;
 import danogl.gui.rendering.OvalRenderable;
 import danogl.util.Vector2;
 

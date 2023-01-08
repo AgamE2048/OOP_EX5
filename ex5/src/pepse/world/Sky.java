@@ -11,21 +11,24 @@ import java.awt.*;
 public class Sky {
     // Class variables
     private static final Color BASIC_SKY_COLOR = Color.decode("#80C6E5");
+    protected static final String SKY_TAG = "sky";
+
 
     /**
-     Creates a GameObject of type Sky
-     * @param gameObjects the gameObjects in the game
+     * Creates a GameObject of type Sky
+     *
+     * @param gameObjects      the gameObjects in the game
      * @param windowDimensions the vector with the dimensions of the screen
-     * @param layer the layer we want to place the GameObject at
+     * @param layer            the layer we want to place the GameObject at
      * @return a GameObject of type Sky
      */
     public static GameObject create(GameObjectCollection gameObjects, Vector2 windowDimensions,
-                                    int layer){
+                                    int layer) {
         GameObject sky = new GameObject(Vector2.ZERO, windowDimensions,
                 new RectangleRenderable(BASIC_SKY_COLOR));
         sky.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
         gameObjects.addGameObject(sky, layer);
-        sky.setTag("sky");
+        sky.setTag(SKY_TAG);
         return sky;
 
     }

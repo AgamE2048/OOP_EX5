@@ -21,16 +21,18 @@ public class Trunk {
     private int locOfX;
     private int layer;
     private int height;
+    protected static final String TREE_TAG = "tree";
 
     /**
      * Creates a GameObject of type Trunk
-     * @param gameObjects the gameObjects in the game
+     *
+     * @param gameObjects      the gameObjects in the game
      * @param windowDimensions the vector with the dimensions of the screen
-     * @param groundHeight the GroundHeight that calculates the height of the ground at certain x
-     * @param locOfX the location of where we want to place the trunk
-     * @param layer the layer we want to place the GameObject at
+     * @param groundHeight     the GroundHeight that calculates the height of the ground at certain x
+     * @param locOfX           the location of where we want to place the trunk
+     * @param layer            the layer we want to place the GameObject at
      */
-    public Trunk(GameObjectCollection gameObjects, Vector2 windowDimensions ,float groundHeight, int locOfX
+    public Trunk(GameObjectCollection gameObjects, Vector2 windowDimensions, float groundHeight, int locOfX
             , int layer) {
         this.groundHeight = groundHeight;
         this.locOfX = locOfX;
@@ -40,36 +42,24 @@ public class Trunk {
     }
 
     /**
-     *
      * @return a GameObject of type Trunk
      */
-    public GameObject create(){
-        this.height = randX(150, 300);
-        float x = (float) (Block.SIZE*(Math.floor((this.locOfX/Block.SIZE))));
+    public GameObject create() {
+        this.height = rand.nextInt(150) + 300;
+        float x = (float) (Block.SIZE * (Math.floor(((float) this.locOfX / Block.SIZE))));
         float y = (float) (windowDimensions.y() -
-                (Block.SIZE*(Math.floor(Math.abs(groundHeight/Block.SIZE)))));
+                (Block.SIZE * (Math.floor(Math.abs(groundHeight / Block.SIZE)))));
         Renderable r = new RectangleRenderable((ColorSupplier.approximateColor(BASE_TRUNK_COLOR)));
-        Block trunk  = new Block(new Vector2(x, y-height+Block.SIZE), r, height); //Rollback
+        Block trunk = new Block(new Vector2(x, y - height + Block.SIZE), r, height);
         gameObjects.addGameObject(trunk, this.layer);
-        trunk.setTag("tree");
+        trunk.setTag(TREE_TAG);
         return trunk;
     }
 
     /**
-     *
      * @return the height of the trunk
      */
     public float getHeight() {
         return this.height;
-    }
-
-    /**
-     *
-     * @param strech how much of a range we want
-     * @param bound lower bound of the random number
-     * @return a random number with the right constraints
-     */
-    private int randX(int strech, int bound) {
-        return (int) rand.nextDouble()*strech + bound;
     }
 }

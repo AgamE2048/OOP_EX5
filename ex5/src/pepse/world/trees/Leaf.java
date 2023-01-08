@@ -6,7 +6,6 @@ import danogl.collisions.GameObjectCollection;
 import danogl.components.ScheduledTask;
 import danogl.components.Transition;
 import danogl.gui.rendering.RectangleRenderable;
-import danogl.gui.rendering.Renderable;
 import danogl.util.Vector2;
 import pepse.util.ColorSupplier;
 import pepse.world.Block;
@@ -59,14 +58,8 @@ public class Leaf extends GameObject {
     }
 
     /**
-     * @param strech
-     * @param bound
-     * @return
+     * Sets the leaves motion on the tree (swaying in the breeze, growing)
      */
-    private int randX(int strech, int bound) {
-        return (int) (rand.nextDouble() * 20 + 1);
-    }
-
     private void run() {
         float angle = rand.nextInt(10) + 10;
         float size = rand.nextInt(5) + 3;
@@ -84,6 +77,9 @@ public class Leaf extends GameObject {
                 Transition.TransitionType.TRANSITION_BACK_AND_FORTH, null);
     }
 
+    /**
+     * Sets the leaves falling motion
+     */
     private void falling() {
         this.transform().setVelocityY(70);
         this.renderer().setRenderable(new RectangleRenderable(ColorSupplier.approximateColor(chooseColor())));
@@ -97,6 +93,9 @@ public class Leaf extends GameObject {
         addComponent(horizrontalTransition);
     }
 
+    /**
+     * @return a random autumn color
+     */
     private Color chooseColor() {
         Random rand = new Random();
         double num = rand.nextDouble();
@@ -104,6 +103,9 @@ public class Leaf extends GameObject {
         return AUTUMN_COLOR_YELLOW;
     }
 
+    /**
+     * Replaces the leaves after they died
+     */
     private void releaf() {
         this.setTopLeftCorner(this.topLeftCorner);
         this.renderer().setOpaqueness(1);

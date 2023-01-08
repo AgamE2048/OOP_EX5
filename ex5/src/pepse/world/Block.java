@@ -8,6 +8,9 @@ import danogl.util.Vector2;
 public class Block extends GameObject {
     // Class variables
     public static final int SIZE = 30;
+    protected static final String GROUND_TAG = "ground";
+    protected static final String TREE_TAG = "tree";
+
 
     /**
      * Basic constructor for the Block type GameObject
@@ -18,7 +21,7 @@ public class Block extends GameObject {
         super(topLeftCorner, Vector2.ONES.mult(SIZE), renderable);
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
-        this.setTag("ground"); //TODO: check
+        this.setTag(GROUND_TAG); //TODO: check
     }
 
     /**
@@ -31,7 +34,7 @@ public class Block extends GameObject {
         super(topLeftCorner, new Vector2(SIZE, height), renderable);
         physics().preventIntersectionsFromDirection(Vector2.ZERO);
         physics().setMass(GameObjectPhysics.IMMOVABLE_MASS);
-        this.setTag("tree");
+        this.setTag(TREE_TAG);
 
     }
 }

@@ -2,7 +2,6 @@ package pepse;
 
 import danogl.GameManager;
 import danogl.GameObject;
-import danogl.components.ScheduledTask;
 import danogl.gui.ImageReader;
 import danogl.gui.SoundReader;
 import danogl.gui.UserInputListener;
@@ -23,8 +22,8 @@ public class pepseGameManager extends GameManager {
     // Class variables
     private static final int CYCLE = 30;
     private static final int LOCATION_EXTRA_WORLD = 1000;
-    private static final int DISTANCE_TO_EXTRA_WORLD = 20;
     private static final int SEED = 100;
+    private static final int RADIUS_SIZE = 7;
     private static int windowWidth;
     private int initial_center;
     private Avatar aang;
@@ -56,7 +55,7 @@ public class pepseGameManager extends GameManager {
         windowController.setTargetFramerate(20);
         this.layerFactory = new LayerFactory();
         Vector2 windowDims = windowController.getWindowDimensions();
-        this.beginningWorld = (int) (-windowDims.x() );
+        this.beginningWorld = (int) (-windowDims.x());
         this.endWorld = (int) (windowDims.x() * 2);
         this.windowWidth = (int) windowDims.x();
         this.initial_center = (int) (windowDims.x() / 2);
@@ -75,6 +74,12 @@ public class pepseGameManager extends GameManager {
                 true);
     }
 
+    /**
+     * Creates the Sky-related objects
+     *
+     * @param windowDims  the vector with teh size of the dimensions
+     * @param imageReader the image reader
+     */
     private void skyCreate(Vector2 windowDims, ImageReader imageReader) {
         // Creates the sky
         Sky.create(gameObjects(), windowDims, this.layerFactory.chooseLayer("sky"));
@@ -91,6 +96,11 @@ public class pepseGameManager extends GameManager {
                 windowDims, CYCLE);
     }
 
+    /**
+     * Creates the Ground-related objects
+     *
+     * @param windowDims the vector with teh size of the dimensions
+     */
     private void groundCreate(Vector2 windowDims) {
         // Creates the ground
         this.groundCreator = new Terrain(gameObjects(), this.layerFactory.chooseLayer("ground"),
@@ -103,6 +113,13 @@ public class pepseGameManager extends GameManager {
         treeCreator.createInRange(0, windowWidth);
     }
 
+    /**
+     * Creates the Avatar
+     *
+     * @param windowDims    the vector with teh size of the dimensions
+     * @param inputListener the input listener
+     * @param imageReader   the image reader
+     */
     private void avatarCreate(Vector2 windowDims, UserInputListener inputListener, ImageReader imageReader) {
         // Creates the avatar
         Vector2 initialAvatarLoc = new Vector2(windowDims.x() * 0.5F, (float) ((Math.floor(groundCreator.groundHeightAt(windowDims.x() * 0.5F) / Block.SIZE) - 1) * Block.SIZE));//windowDims.mult(0.5F);
@@ -112,19 +129,27 @@ public class pepseGameManager extends GameManager {
         aang.setCenter(new Vector2(windowDims.x() * 0.5F, windowDims.y() * 0.2F));
         setCamera(new Camera(aang, new Vector2(windowDims.x() * 0.5F - initialAvatarLoc.x(), -initialAvatarLoc.y() * 0.3F),
                 windowDims, windowDims));
-//        new ScheduledTask(camera(), 0.75F, true, this::expandWorld);
     }
 
+    /**
+     * @param deltaTime The time, in seconds, that passed since the last invocation
+     *                  of this method (i.e., since the last frame). This is useful
+     *                  for either accumulating the total time that passed since some
+     *                  event, or for physics integration (i.e., multiply this by
+     *                  the acceleration to get an estimate of the added velocity or
+     *                  by the velocity to get an estimate of the difference in position).
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
         if (Math.abs(this.aang.getCenter().x() - initial_center) >= windowWidth / 3f) {
-//            deleteObjects();
             expandWorld();
         }
-//        deleteObjects();
     }
 
+    /**
+     * Increases teh size of the world needed for the game
+     */
     private void expandWorld() {
         float center = aang.transform().getCenter().x();
         deleteObjects(this.layerFactory.chooseLayer("leaf"), center);
@@ -134,10 +159,10 @@ public class pepseGameManager extends GameManager {
         if (center > initial_center) {
             treeCreator.createInRange(
                     (int) windowWidth + initial_center,
-                    (int) (center + 2*windowWidth) );
+                    (int) (center + 2 * windowWidth));
             groundCreator.createInRange(
                     (int) windowWidth + initial_center,
-                    (int) (center + 2*windowWidth));
+                    (int) (center + 2 * windowWidth));
 
         }
         if (center < initial_center) {
@@ -145,31 +170,18 @@ public class pepseGameManager extends GameManager {
                     (int) (center - 2 * windowWidth),
                     (int) ((-windowWidth) + initial_center));
             groundCreator.createInRange(
-                    (int) (center - windowWidth*2),
+                    (int) (center - windowWidth * 2),
                     (int) ((-windowWidth) + initial_center));
         }
         initial_center = (int) center;
-//        activeTerrainRange = new Vector2(-REFRESH_DISTANCE + center, REFRESH_DISTANCE + center);
     }
 
-//    private void expandWorld() {
-//        if(this.aang.getCenter().x() > initial_center){
-//            groundCreator.createInRange(endWorld, endWorld + windowWidth - DISTANCE_TO_EXTRA_WORLD);
-//            treeCreator.createInRange(endWorld, endWorld + windowWidth - DISTANCE_TO_EXTRA_WORLD);
-//            this.beginningWorld = endWorld - DISTANCE_TO_EXTRA_WORLD;
-//            this.endWorld += windowWidth + DISTANCE_TO_EXTRA_WORLD;
-//        }
-//        if(this.aang.getCenter().x() < initial_center){
-//            groundCreator.createInRange(beginningWorld - (windowWidth + DISTANCE_TO_EXTRA_WORLD),
-//                    beginningWorld);
-//            treeCreator.createInRange(beginningWorld - (windowWidth + DISTANCE_TO_EXTRA_WORLD),
-//                    beginningWorld);
-//            this.endWorld = beginningWorld + DISTANCE_TO_EXTRA_WORLD;
-//            this.beginningWorld -= (windowWidth + DISTANCE_TO_EXTRA_WORLD);
-//        }
-//        initial_center = (int) this.aang.getCenter().x();
-//    }
-
+    /**
+     * Delets out of bound objects at certain layers
+     *
+     * @param layer       the layer where we want to erase objects
+     * @param worldCenter the center from which we want to erase
+     */
     private void deleteObjects(int layer, float worldCenter) {
         for (GameObject obj : gameObjects()) {
             float distanceScreenCenter = Math.abs(obj.getCenter().x() - worldCenter);
@@ -180,20 +192,12 @@ public class pepseGameManager extends GameManager {
                 if (str.equals("tree")) {
                     for (GameObject newObj : gameObjects()) {
                         float dist = Math.abs(x - worldCenter);
-                        if (dist < 7) {
+                        if (dist < RADIUS_SIZE) {
                             gameObjects().removeGameObject(newObj, layerFactory.chooseLayer("leaf"));
                         }
                     }
                 }
             }
-            //int layer) {
-//        for (GameObject obj:this.gameObjects()) {
-//            if(obj.getCenter().x() > this.endWorld || obj.getCenter().x() < this.beginningWorld){
-//                if(this.layerFactory.shouldErase(obj.getTag())) {
-//                    this.gameObjects().removeGameObject(obj, this.layerFactory.chooseLayer(obj.getTag()));
-//                }
-//            }
-//        }
         }
     }
 }
