@@ -39,14 +39,13 @@ public class pepseGameManager extends GameManager {
     }
 
     /**
-     *
-     * @param imageReader Contains a single method: readImage, which reads an image from disk.
-     *                 See its documentation for help.
-     * @param soundReader Contains a single method: readSound, which reads a wav file from
-     *                    disk. See its documentation for help.
-     * @param inputListener Contains a single method: isKeyPressed, which returns whether
-     *                      a given key is currently pressed by the user or not. See its
-     *                      documentation.
+     * @param imageReader      Contains a single method: readImage, which reads an image from disk.
+     *                         See its documentation for help.
+     * @param soundReader      Contains a single method: readSound, which reads a wav file from
+     *                         disk. See its documentation for help.
+     * @param inputListener    Contains a single method: isKeyPressed, which returns whether
+     *                         a given key is currently pressed by the user or not. See its
+     *                         documentation.
      * @param windowController Contains an array of helpful, self explanatory methods
      *                         concerning the window.
      */
@@ -54,13 +53,13 @@ public class pepseGameManager extends GameManager {
     public void initializeGame(ImageReader imageReader, SoundReader soundReader, UserInputListener
             inputListener, WindowController windowController) {
         super.initializeGame(imageReader, soundReader, inputListener, windowController);
-        windowController.setTargetFramerate(80);
+        windowController.setTargetFramerate(20);
         this.layerFactory = new LayerFactory();
         Vector2 windowDims = windowController.getWindowDimensions();
-        this.beginningWorld = (int)(-windowDims.x()*.5);
-        this.endWorld = (int)(windowDims.x() * 1.5);
+        this.beginningWorld = (int) (-windowDims.x() );
+        this.endWorld = (int) (windowDims.x() * 2);
         this.windowWidth = (int) windowDims.x();
-        this.initial_center = (int) (windowDims.x()/2);
+        this.initial_center = (int) (windowDims.x() / 2);
         // Create sky-related objects
         skyCreate(windowDims, imageReader);
         // Creates ground-related objects
@@ -101,17 +100,17 @@ public class pepseGameManager extends GameManager {
         // Creates the trees
         this.treeCreator = new Tree(gameObjects(), layerFactory.chooseLayer("tree"), windowDims,
                 groundCreator::groundHeightAt);
-        treeCreator.createInRange(beginningWorld, endWorld);
+        treeCreator.createInRange(0, windowWidth);
     }
 
     private void avatarCreate(Vector2 windowDims, UserInputListener inputListener, ImageReader imageReader) {
         // Creates the avatar
-        Vector2 initialAvatarLoc = new Vector2(windowDims.x() * 0.5F, (float) ((Math.floor(groundCreator.groundHeightAt(windowDims.x() * 0.5F)/ Block.SIZE) - 1) * Block.SIZE));//windowDims.mult(0.5F);
+        Vector2 initialAvatarLoc = new Vector2(windowDims.x() * 0.5F, (float) ((Math.floor(groundCreator.groundHeightAt(windowDims.x() * 0.5F) / Block.SIZE) - 1) * Block.SIZE));//windowDims.mult(0.5F);
         this.aang = Avatar.create(this.gameObjects(), layerFactory.chooseLayer("avatar"),
                 initialAvatarLoc, inputListener, imageReader);
         this.aang.setTag("avatar");
         aang.setCenter(new Vector2(windowDims.x() * 0.5F, windowDims.y() * 0.2F));
-        setCamera(new Camera(aang, new Vector2(windowDims.x()*0.5F - initialAvatarLoc.x(), -initialAvatarLoc.y() * 0.3F),
+        setCamera(new Camera(aang, new Vector2(windowDims.x() * 0.5F - initialAvatarLoc.x(), -initialAvatarLoc.y() * 0.3F),
                 windowDims, windowDims));
 //        new ScheduledTask(camera(), 0.75F, true, this::expandWorld);
     }
@@ -119,9 +118,9 @@ public class pepseGameManager extends GameManager {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        if(Math.abs(this.aang.getCenter().x() - initial_center) > windowWidth/2){
+        if (Math.abs(this.aang.getCenter().x() - initial_center) >= windowWidth / 3f) {
 //            deleteObjects();
-             expandWorld();
+            expandWorld();
         }
 //        deleteObjects();
     }
@@ -132,23 +131,21 @@ public class pepseGameManager extends GameManager {
         deleteObjects(this.layerFactory.chooseLayer("tree"), center);
         deleteObjects(this.layerFactory.chooseLayer("ground"), center);
 
-        if (aang.getCenter().x() > initial_center) {
-            groundCreator.createInRange(
-                    (int) windowWidth + initial_center,
-                    (int) (center + windowWidth));
-
+        if (center > initial_center) {
             treeCreator.createInRange(
                     (int) windowWidth + initial_center,
-                    (int) (center + windowWidth));
+                    (int) (center + 2*windowWidth) );
+            groundCreator.createInRange(
+                    (int) windowWidth + initial_center,
+                    (int) (center + 2*windowWidth));
 
         }
-        if (aang.getCenter().x() < initial_center) {
-            groundCreator.createInRange(
-                    (int) (center - windowWidth),
-                    (int) ((-windowWidth) + initial_center));
-
+        if (center < initial_center) {
             treeCreator.createInRange(
-                    (int) (center- 2*windowWidth),
+                    (int) (center - 2 * windowWidth),
+                    (int) ((-windowWidth) + initial_center));
+            groundCreator.createInRange(
+                    (int) (center - windowWidth*2),
                     (int) ((-windowWidth) + initial_center));
         }
         initial_center = (int) center;
@@ -177,9 +174,18 @@ public class pepseGameManager extends GameManager {
         for (GameObject obj : gameObjects()) {
             float distanceScreenCenter = Math.abs(obj.getCenter().x() - worldCenter);
             if (distanceScreenCenter > LOCATION_EXTRA_WORLD) {
+                String str = obj.getTag();
+                float x = obj.getCenter().x();
                 gameObjects().removeGameObject(obj, layer);
+                if (str.equals("tree")) {
+                    for (GameObject newObj : gameObjects()) {
+                        float dist = Math.abs(x - worldCenter);
+                        if (dist < 7) {
+                            gameObjects().removeGameObject(newObj, layerFactory.chooseLayer("leaf"));
+                        }
+                    }
+                }
             }
-        }
             //int layer) {
 //        for (GameObject obj:this.gameObjects()) {
 //            if(obj.getCenter().x() > this.endWorld || obj.getCenter().x() < this.beginningWorld){
@@ -188,5 +194,6 @@ public class pepseGameManager extends GameManager {
 //                }
 //            }
 //        }
+        }
     }
 }

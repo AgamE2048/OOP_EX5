@@ -3,10 +3,12 @@ package pepse.world;
 import danogl.GameObject;
 import danogl.collisions.Collision;
 import danogl.collisions.GameObjectCollection;
+import danogl.components.CoordinateSpace;
 import danogl.gui.ImageReader;
 import danogl.gui.UserInputListener;
 import danogl.gui.rendering.AnimationRenderable;
 import danogl.gui.rendering.Renderable;
+import danogl.gui.rendering.TextRenderable;
 import danogl.util.Vector2;
 
 import java.awt.event.KeyEvent;
@@ -34,6 +36,8 @@ public class Avatar extends GameObject{
     private static final int MAX_VEL = 500;
 
     private static float energy;
+    private final TextRenderable textRenderable;
+    private final GameObject text;
     private UserInputListener inputListener;
     private static Renderable[] renderedAvatarImagesStanding;
     private static Renderable[] renderedAvatarImagesWalking;
@@ -53,15 +57,20 @@ public class Avatar extends GameObject{
      *                      the GameObject will not be rendered.
      */
     public Avatar(Vector2 topLeftCorner, Vector2 dimensions, Renderable renderable,
-                  UserInputListener inputListener) {
+                  UserInputListener inputListener, GameObjectCollection gameObjects) {
         super(topLeftCorner, dimensions, renderable);
         this.inputListener = inputListener;
+        this.textRenderable = new TextRenderable(""+energy);
+        this.text = new GameObject(Vector2.ZERO, new Vector2(100, 50), this.textRenderable);
+        this.text.setCoordinateSpace(CoordinateSpace.CAMERA_COORDINATES);
+        gameObjects.addGameObject(this.text);
     }
 
     public static Avatar create(GameObjectCollection gameObjects,
                                 int layer, Vector2 topLeftCorner,
                                 UserInputListener inputListener,
                                 ImageReader imageReader){
+
 
         //Renderable avatarRenderable = new RectangleRenderable(Color.black);
         avatarRenderableStanding = new AnimationRenderable(CLIPS_STANDING, imageReader, true,
@@ -91,7 +100,7 @@ public class Avatar extends GameObject{
         }
 
         Avatar avatar = new Avatar(topLeftCorner, new Vector2(100, 100),
-                avatarRenderableStanding, inputListener);
+                avatarRenderableStanding, inputListener, gameObjects);
 
 
         energy = INITIAL_ENERGY;
@@ -114,6 +123,7 @@ public class Avatar extends GameObject{
             super.onCollisionEnter(other, collision);
             this.transform().setVelocityX(0);
             this.transform().setVelocityY(0);
+
         }
     }
 
@@ -135,7 +145,7 @@ public class Avatar extends GameObject{
 
         if(getVelocity().y() == 0){
             renderer().setRenderable(avatarRenderableStanding);
-            energy += 0.5;
+            if(energy < 100) energy += 0.5;
         }
 
         if(inputListener.isKeyPressed(KeyEvent.VK_LEFT)) {
@@ -174,6 +184,7 @@ public class Avatar extends GameObject{
         if(getVelocity().y() >= MAX_VEL){
             transform().setVelocityY(MAX_VEL);
         }
+        this.textRenderable.setString(""+energy);
 
     }
 }

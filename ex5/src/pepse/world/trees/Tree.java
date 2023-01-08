@@ -17,7 +17,7 @@ public class Tree {
     private final int layer;
     private final Vector2 windowDimensions;
     private final GroundHeight ground;
-    private final static int indeces[] = {60, 420, 990, 1260};
+    private final static int indeces[] = {210, 1260};
 
     /**
      * Creates a GameObject of type Tree

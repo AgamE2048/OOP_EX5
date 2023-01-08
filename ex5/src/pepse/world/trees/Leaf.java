@@ -45,7 +45,7 @@ public class Leaf extends GameObject{
 //        this.gameObjects.addGameObject(this);
 //        this.setTag("leaf"); //TODO: add proper layer
 
-        new ScheduledTask(this, (float)randX(10, 1), false, this::run);
+        new ScheduledTask(this, (float)randX(20, 1), false, this::run);
         new ScheduledTask(this, this.lifeTime, false, this::falling);
 
         return this;
